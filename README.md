@@ -10,6 +10,16 @@ are no external model calls, no embedding fallback, and no user state.
 Designed for [Azure Container Apps](https://learn.microsoft.com/azure/container-apps/)
 deployment with a replica cap to bound spend.
 
+### Logging and analytics
+
+Each tool call produces one structured JSON log line containing the tool
+name, the call arguments, a truncated preview of the result (max 4 KB),
+the latency, success flag, and a **hashed** client IP (SHA-256 with a
+salt that rotates at UTC midnight and never leaves the running replica).
+Raw IPs are never stored or logged. Logs are forwarded to the deployment
+operator's log store (Azure Log Analytics by default) for aggregate
+usage analytics only.
+
 ## Tools
 
 | Category | Tool | Description |

@@ -18,6 +18,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.routing import Mount, Route
 
+from .analytics import ClientContextMiddleware
 from .config import Config, load_config
 from .ratelimit import RateLimitMiddleware
 from .tools import register_all
@@ -137,6 +138,11 @@ def build_app(cfg: Config | None = None) -> Starlette:
         routes=routes,
         lifespan=mcp_app.router.lifespan_context,
     )
+    # Order matters: BaseHTTPMiddleware applies in reverse (outermost first
+    # in Starlette's add_middleware queue is added last). We want rate limit
+    # outermost (cheap reject before any analytics work) and the IP-capture
+    # context middleware just inside it so tool calls see the IP.
+    app.add_middleware(ClientContextMiddleware)
     app.add_middleware(
         RateLimitMiddleware,
         per_minute=cfg.rate_limit_per_minute,

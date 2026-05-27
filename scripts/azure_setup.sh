@@ -75,9 +75,16 @@ FQDN=$(az containerapp show -g "$RG" -n "$APP_NAME" \
 echo "    -> ingress: https://$FQDN"
 
 echo "[5/5] GitHub Actions OIDC federation"
-APP_ID=$(az ad app create --display-name "${APP_NAME}-deploy" --query appId -o tsv)
-SP_ID=$(az ad sp create --id "$APP_ID" --query id -o tsv 2>/dev/null || \
-        az ad sp show --id "$APP_ID" --query id -o tsv)
+APP_DISPLAY="${APP_NAME}-deploy"
+APP_ID=$(az ad app list --display-name "$APP_DISPLAY" --query "[0].appId" -o tsv)
+if [[ -z "$APP_ID" ]]; then
+    APP_ID=$(az ad app create --display-name "$APP_DISPLAY" --query appId -o tsv)
+    echo "    created AAD app $APP_DISPLAY ($APP_ID)"
+else
+    echo "    reusing existing AAD app $APP_DISPLAY ($APP_ID)"
+fi
+SP_ID=$(az ad sp show --id "$APP_ID" --query id -o tsv 2>/dev/null || \
+        az ad sp create --id "$APP_ID" --query id -o tsv)
 
 az role assignment create \
     --role Contributor \
@@ -89,12 +96,19 @@ az role assignment create \
     --assignee "$APP_ID" \
     --scope "/subscriptions/$SUB_ID/resourceGroups/$RG/providers/Microsoft.ContainerRegistry/registries/$ACR_NAME" >/dev/null || true
 
-az ad app federated-credential create --id "$APP_ID" --parameters "{
-  \"name\":\"github-main\",
-  \"issuer\":\"https://token.actions.githubusercontent.com\",
-  \"subject\":\"repo:${GH_REPO}:ref:refs/heads/main\",
-  \"audiences\":[\"api://AzureADTokenExchange\"]
-}" >/dev/null || true
+EXISTING_FED=$(az ad app federated-credential list --id "$APP_ID" \
+    --query "[?name=='github-main'] | [0].id" -o tsv 2>/dev/null || true)
+if [[ -z "$EXISTING_FED" ]]; then
+    az ad app federated-credential create --id "$APP_ID" --parameters "{
+      \"name\":\"github-main\",
+      \"issuer\":\"https://token.actions.githubusercontent.com\",
+      \"subject\":\"repo:${GH_REPO}:ref:refs/heads/main\",
+      \"audiences\":[\"api://AzureADTokenExchange\"]
+    }" >/dev/null
+    echo "    created federated credential github-main for $GH_REPO"
+else
+    echo "    reusing existing federated credential github-main"
+fi
 
 cat <<EOF
 

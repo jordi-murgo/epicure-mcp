@@ -35,6 +35,7 @@ WORKDIR /app
 COPY --from=builder /install /usr/local
 
 COPY data /app/data
+COPY assets /app/assets
 
 RUN useradd -r -u 10001 epicure \
     && chown -R epicure:epicure /app

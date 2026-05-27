@@ -7,15 +7,19 @@ request.
 
 from __future__ import annotations
 
+import base64
 import logging
+import os
+from pathlib import Path
 from typing import Any
 
 import uvicorn
 from mcp.server.fastmcp import FastMCP
 from mcp.server.transport_security import TransportSecuritySettings
+from mcp.types import Icon
 from starlette.applications import Starlette
 from starlette.requests import Request
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, Response
 from starlette.routing import Mount, Route
 
 from .analytics import ClientContextMiddleware
@@ -24,6 +28,25 @@ from .ratelimit import RateLimitMiddleware
 from .tools import register_all
 
 log = logging.getLogger("epicure_mcp.server")
+
+
+def _favicon_candidate_paths() -> list[Path]:
+    """Where to look for ``favicon.png``, in priority order.
+
+    Production runtime: /app/assets (copied in by the Dockerfile).
+    Local dev: <repo-root>/assets (sibling of src/).
+    Override: $EPICURE_ASSETS_DIR.
+    """
+    candidates: list[Path] = []
+    env = os.environ.get("EPICURE_ASSETS_DIR")
+    if env:
+        candidates.append(Path(env) / "favicon.png")
+    candidates.append(Path("/app/assets/favicon.png"))
+    # src/epicure_mcp/server.py -> repo root is parent.parent.parent
+    candidates.append(
+        Path(__file__).resolve().parent.parent.parent / "assets" / "favicon.png"
+    )
+    return candidates
 
 
 SERVER_INSTRUCTIONS = """\
@@ -101,19 +124,46 @@ GUARDRAILS
 """
 
 
-def _build_mcp(cfg: Config) -> FastMCP:
+def _load_favicon_bytes() -> bytes | None:
+    """Best-effort favicon load. Returns None when the asset is missing so
+    the server still starts in environments without the bundled icon."""
+    for path in _favicon_candidate_paths():
+        if path.exists():
+            return path.read_bytes()
+    log.warning(
+        "favicon asset not found in any of: %s; icon endpoints disabled",
+        [str(p) for p in _favicon_candidate_paths()],
+    )
+    return None
+
+
+def _favicon_data_uri(png_bytes: bytes) -> str:
+    return "data:image/png;base64," + base64.b64encode(png_bytes).decode("ascii")
+
+
+def _build_mcp(cfg: Config, favicon_bytes: bytes | None) -> FastMCP:
     # Public server: the host name varies (Azure Container Apps assigns a
     # generated FQDN) and clients may proxy through Claude.ai / Cursor /
     # ChatGPT. Disable DNS-rebinding protection - it defends against
     # browser-initiated attacks against a localhost server, which does not
     # apply when the server is publicly exposed.
     security = TransportSecuritySettings(enable_dns_rebinding_protection=False)
+    icons: list[Icon] | None = None
+    if favicon_bytes:
+        icons = [
+            Icon(
+                src=_favicon_data_uri(favicon_bytes),
+                mimeType="image/png",
+                sizes=["180x180"],
+            ),
+        ]
     server = FastMCP(
         name=cfg.server_name,
         instructions=SERVER_INSTRUCTIONS,
         transport_security=security,
         host=cfg.host,
         port=cfg.port,
+        icons=icons,
     )
     register_all(server)
     return server
@@ -125,12 +175,29 @@ async def _healthz(request: Request) -> JSONResponse:
     return JSONResponse({"status": "ok"})
 
 
+def _favicon_endpoint(png_bytes: bytes | None):
+    async def _serve(request: Request) -> Response:
+        if not png_bytes:
+            return Response(status_code=404)
+        return Response(
+            content=png_bytes,
+            media_type="image/png",
+            headers={"Cache-Control": "public, max-age=86400"},
+        )
+
+    return _serve
+
+
 def build_app(cfg: Config | None = None) -> Starlette:
     cfg = cfg or load_config()
-    mcp = _build_mcp(cfg)
+    favicon_bytes = _load_favicon_bytes()
+    mcp = _build_mcp(cfg, favicon_bytes)
     mcp_app = mcp.streamable_http_app()
+    favicon = _favicon_endpoint(favicon_bytes)
     routes: list[Any] = [
         Route("/healthz", endpoint=_healthz, methods=["GET"]),
+        Route("/favicon.ico", endpoint=favicon, methods=["GET"]),
+        Route("/favicon.png", endpoint=favicon, methods=["GET"]),
         Mount("/", app=mcp_app),
     ]
 

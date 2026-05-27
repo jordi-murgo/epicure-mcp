@@ -44,6 +44,16 @@ async def _run_session(transport: httpx.ASGITransport) -> None:
         assert health.status_code == 200
         assert health.json() == {"status": "ok"}
 
+        # Favicon endpoints should serve the PNG bytes with the right
+        # content-type so browser unfurlers / link previews work.
+        favicon_ico = await client.get("/favicon.ico")
+        assert favicon_ico.status_code == 200
+        assert favicon_ico.headers["content-type"] == "image/png"
+        assert favicon_ico.content[:8] == b"\x89PNG\r\n\x1a\n"  # PNG magic
+        favicon_png = await client.get("/favicon.png")
+        assert favicon_png.status_code == 200
+        assert favicon_png.content == favicon_ico.content
+
         init_payload = {
             "jsonrpc": "2.0",
             "id": 1,
@@ -59,6 +69,12 @@ async def _run_session(transport: httpx.ASGITransport) -> None:
         body = _decode(resp.text)
         assert body["jsonrpc"] == "2.0"
         assert "result" in body
+        # MCP server should advertise its icon in serverInfo.icons.
+        server_info = body["result"].get("serverInfo") or {}
+        icons = server_info.get("icons") or []
+        assert icons, "initialize should advertise at least one icon"
+        assert icons[0]["mimeType"] == "image/png"
+        assert icons[0]["src"].startswith("data:image/png;base64,")
         session_id = resp.headers.get("mcp-session-id")
         assert session_id
 

@@ -14,8 +14,8 @@
 #   az account set --subscription "<sub-id>"
 #
 # Env vars you can override:
-#   RG              resource group name           default: epicure-mcp
-#   LOCATION        Azure region                  default: westeurope
+#   RG              resource group name           default: epicure-mcp-ne
+#   LOCATION        Azure region                  default: northeurope
 #   ACR_NAME        ACR name (must be globally unique, lowercase, no dashes)
 #   ACA_ENV         Container Apps env name       default: epicure-mcp-env
 #   APP_NAME        Container app name            default: epicure-mcp
@@ -23,8 +23,8 @@
 
 set -euo pipefail
 
-RG="${RG:-epicure-mcp}"
-LOCATION="${LOCATION:-westeurope}"
+RG="${RG:-epicure-mcp-ne}"
+LOCATION="${LOCATION:-northeurope}"
 ACR_NAME="${ACR_NAME:-epicuremcpacr$RANDOM}"
 ACA_ENV="${ACA_ENV:-epicure-mcp-env}"
 APP_NAME="${APP_NAME:-epicure-mcp}"

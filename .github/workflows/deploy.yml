@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 env:
-  AZURE_RG: epicure-mcp
+  AZURE_RG: epicure-mcp-ne
   AZURE_ENV: epicure-mcp-env
   CONTAINER_APP: epicure-mcp
   ACR_NAME: ${{ vars.ACR_NAME }}

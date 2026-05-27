@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import asyncio
 import sys
+import time
 
 from mcp import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
@@ -49,12 +50,15 @@ async def run(url: str) -> int:
             tool_names = {t.name for t in tools}
             print(f"discovered {len(tool_names)} tools: {sorted(tool_names)}")
 
+            # Throttle to stay under a 60 req/min / burst-10 limiter.
+            # The MCP handshake already consumed a few tokens; pace ourselves.
             failures: list[str] = []
             for name, args in SAMPLE_CALLS:
                 if name not in tool_names:
                     print(f"  MISSING: {name}")
                     failures.append(name)
                     continue
+                time.sleep(1.1)  # one call/sec keeps us safe at the default limit
                 try:
                     result = await session.call_tool(name, args)
                     if result.isError:

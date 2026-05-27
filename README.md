@@ -70,15 +70,15 @@ embeddings + ingredient metadata.
 
 ## Bundled data
 
-`scripts/build_data.py` produces the following artefacts inside the
-bundled `data/` directory:
+The `data/` directory is **committed to this repo** (~13 MB) so the
+server is fully self-contained: clone, build, deploy. No external data
+checkout required.
 
 | File | Source | Size |
 |------|--------|------|
 | `embeddings.csv` | epicure-data: `deploy/payload/embeddings.csv` | ~10 MB |
 | `ingredient_list.csv` | epicure-data payload | ~75 KB |
 | `ingredient_tags.csv`  | epicure-data payload | ~100 KB |
-| `cosine_similarity.csv` | epicure-data payload | ~30 MB |
 | `consolidated_nodes.csv` | epicure-data payload | ~70 KB |
 | `factor_labels_ica_cooc.json` | `application/paper/results/` | ~75 KB |
 | `mode_explorer_cooc.json` | `application/exploratory/results/` | ~2 MB |
@@ -87,8 +87,16 @@ bundled `data/` directory:
 | `mode_poles_cooc.npy` | computed (150 unit vectors) | ~180 KB |
 | `umap_coords.csv` | computed (1,790 x 2) | ~55 KB |
 
-The bundle is **gitignored**; CI / deploy pipelines must rebuild it
-from a checkout of `epicure-data` (see `.github/workflows/deploy.yml`).
+### Refreshing the bundle when the model changes
+
+When a new `epicure-data` training run lands, regenerate the bundle from
+a local checkout and commit the diff:
+
+```bash
+python scripts/build_data.py --source-repo /path/to/epicure-data --out-dir data
+python scripts/verify_data.py --data-dir data
+git add data/ && git commit -m "data: refresh bundle from <run-id>"
+```
 
 ## Azure Container Apps deployment
 
@@ -114,10 +122,9 @@ on the repo for the deploy workflow to function.
 
 `.github/workflows/deploy.yml` runs on every push to `main`:
 
-1. Checks out this repo + the private `epicure-data` repo (via a PAT).
-2. Rebuilds the data bundle.
-3. Builds & pushes the Docker image to ACR via OIDC.
-4. Calls `az containerapp update` and waits for the new revision to
+1. Checks out the repo (the data bundle is already inside it).
+2. Builds & pushes the Docker image to ACR via OIDC.
+3. Calls `az containerapp update` and waits for the new revision to
    answer `/healthz`.
 
 ### Scaling and rate limit

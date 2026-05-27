@@ -6,7 +6,6 @@ checkout (so `application.utils` is importable). It produces:
   data/embeddings.csv                    (copied from deploy/payload)
   data/ingredient_list.csv               (copied)
   data/ingredient_tags.csv               (copied)
-  data/cosine_similarity.csv             (copied)
   data/consolidated_nodes.csv            (copied)
   data/factor_labels_ica_cooc.json       (copied)
   data/mode_explorer_cooc.json           (copied)
@@ -175,7 +174,6 @@ def main() -> None:
         (payload / "embeddings.csv", out_dir / "embeddings.csv"),
         (payload / "ingredient_list.csv", out_dir / "ingredient_list.csv"),
         (payload / "ingredient_tags.csv", out_dir / "ingredient_tags.csv"),
-        (payload / "cosine_similarity.csv", out_dir / "cosine_similarity.csv"),
         (payload / "consolidated_nodes.csv", out_dir / "consolidated_nodes.csv"),
         (
             source / "application" / "paper" / "results" / "factor_labels_ica_cooc.json",

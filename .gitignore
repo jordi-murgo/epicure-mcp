@@ -9,5 +9,7 @@ dist/
 build/
 *.egg-info/
 .DS_Store
-data/
-!.gitkeep
+
+# Pipeline backups - the canonical bundle lives in data/ and IS committed.
+data/backup/
+data/*.bak

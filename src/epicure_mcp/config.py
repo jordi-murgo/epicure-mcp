@@ -32,10 +32,6 @@ class Config:
         return self.data_dir / "ingredient_tags.csv"
 
     @property
-    def cosine_similarity_csv(self) -> Path:
-        return self.data_dir / "cosine_similarity.csv"
-
-    @property
     def consolidated_nodes_csv(self) -> Path:
         return self.data_dir / "consolidated_nodes.csv"
 

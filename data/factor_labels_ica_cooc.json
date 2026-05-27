@@ -1,0 +1,2172 @@
+{
+  "20": {
+    "0": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 0,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Indonesian Pantry Staples",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "processing",
+          "function"
+        ]
+      },
+      "pole_b": {
+        "label": "Globally Dispersed Non-Indonesian Ingredients",
+        "coherence": "incoherent",
+        "themes": [
+          "category"
+        ]
+      },
+      "axis": {
+        "label": "Indonesian Culinary Identity",
+        "description": "This axis separates ingredients strongly associated with Indonesian and broader Southeast Asian cooking (Pole A) from a diffuse collection of ingredients drawn from many other culinary traditions (Pole B). Pole A is highly coherent around Indonesian cuisine, while Pole B is a residual grab-bag of non-Indonesian items.",
+        "type": "cuisine",
+        "is_bipolar_dimension": false,
+        "notes": "Pole A is an exceptionally coherent Indonesian ingredient cluster featuring signature items like candlenut, kencur, salam leaf, petai bean, tempeh, sweet soy sauce, and sambal. Pole B lacks internal coherence\u2014it includes items from Japanese (furikake, pickled ginger), Mexican (tajin, mulato chile), Mediterranean (za'atar, falafel), and other traditions, functioning as a catch-all 'not Indonesian' residual. The factor is best understood as capturing Indonesian co-occurrence patterns rather than a true bipolar dimension."
+      },
+      "secondary_lens": {
+        "type": "sensory",
+        "label": "Spicy-aromatic pungency and fermented depth",
+        "description": "The cross-cosine evidence shows CF:spicy at +0.27 aligning with Pole A, consistent with the prevalence of chili-based sambals, shrimp paste, fermented soybean (tauco, tempeh), and aromatic rhizomes (galangal, kencur, turmeric) that collectively deliver pungent, fermented, and warm-aromatic sensory profiles.",
+        "confidence": "moderate"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": 0.6827
+        },
+        {
+          "direction": "CF:spicy",
+          "cos": 0.2679
+        },
+        {
+          "direction": "CUI:South_Asian",
+          "cos": 0.2237
+        },
+        {
+          "direction": "CF:woody",
+          "cos": 0.1796
+        },
+        {
+          "direction": "CF:minty",
+          "cos": 0.1535
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": -0.2775
+        },
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": -0.2736
+        },
+        {
+          "direction": "CF:green",
+          "cos": -0.1994
+        },
+        {
+          "direction": "CF:savory",
+          "cos": -0.1808
+        },
+        {
+          "direction": "USDA:caloric_density",
+          "cos": -0.162
+        }
+      ],
+      "pole_a_top": [
+        "candlenut",
+        "kencur",
+        "gourami",
+        "asam_gelugur",
+        "turmeric_leaf",
+        "milkfish",
+        "tauco",
+        "petai_bean",
+        "tempeh",
+        "salam_leaf"
+      ],
+      "pole_b_top": [
+        "lemon",
+        "tartar_sauce",
+        "mixed_grains",
+        "paprika",
+        "clamato_juice",
+        "soju",
+        "walnut_oil",
+        "mayonnaise",
+        "cajeta",
+        "mirasol_chile"
+      ],
+      "method": "ica"
+    },
+    "1": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 1,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Global Savory Pantry Staples",
+        "coherence": "moderate",
+        "themes": [
+          "cuisine",
+          "function",
+          "processing"
+        ]
+      },
+      "pole_b": {
+        "label": "Indian Subcontinent Pantry",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "processing",
+          "function"
+        ]
+      },
+      "axis": {
+        "label": "Indian Subcontinent vs. Global Eclectic Pantry",
+        "description": "This axis separates a tightly coherent Indian/South Asian ingredient cluster (dals, masalas, paneer, ghee, curry leaves, fenugreek) from a diffuse, globally eclectic collection of seasonings, beans, tofu products, and aromatic spices that co-occur in non-South-Asian cuisines. The factor essentially captures how strongly an ingredient belongs to the South Asian culinary system versus everything else.",
+        "type": "cuisine",
+        "is_bipolar_dimension": true,
+        "notes": "Pole A is notably incoherent\u2014it spans East Asian tofu products, European cheeses, Latin American seasonings, Cajun/Creole blends, and various beans with no single cultural or sensory thread beyond 'not South Asian.' Pole B is extremely coherent and dominated by Indian subcontinental ingredients. The cross-cosine to CUI:South_Asian at \u22120.93 confirms this is overwhelmingly a cuisine-identity factor. The secondary lens captures a real but modest non-cultural gradient in aroma chemistry and macronutrient profile."
+      },
+      "secondary_lens": {
+        "type": "chemistry",
+        "label": "Fatty-savory-green vs. minty-floral-fibrous",
+        "description": "Pole A aligns with fatty, savory, meaty, and green compound features (all ~0.27\u20130.30), reflecting its emphasis on fats, umami-rich fermented products, and peppery/herbal aromatics, while Pole B loads on minty and floral notes plus higher fiber and carbohydrate content, consistent with South Asian reliance on lentils, whole grains, and aromatic spice blends.",
+        "confidence": "moderate"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CF:fatty",
+          "cos": 0.2985
+        },
+        {
+          "direction": "CF:savory",
+          "cos": 0.2981
+        },
+        {
+          "direction": "CF:meaty",
+          "cos": 0.2936
+        },
+        {
+          "direction": "CF:green",
+          "cos": 0.2905
+        },
+        {
+          "direction": "CF:fruity",
+          "cos": 0.2722
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:South_Asian",
+          "cos": -0.9344
+        },
+        {
+          "direction": "USDA:fiber_g",
+          "cos": -0.3109
+        },
+        {
+          "direction": "CF:minty",
+          "cos": -0.3095
+        },
+        {
+          "direction": "LLM:floral",
+          "cos": -0.2571
+        },
+        {
+          "direction": "USDA:carbohydrate_g",
+          "cos": -0.2353
+        }
+      ],
+      "pole_a_top": [
+        "green_peppercorn",
+        "creole_seasoning",
+        "juniper_berry",
+        "flageolet_bean",
+        "mesquite",
+        "horseradish",
+        "barbecue_seasoning",
+        "red_bean",
+        "white_bean",
+        "tonka_bean"
+      ],
+      "pole_b_top": [
+        "kokum",
+        "goda_masala",
+        "mustard_oil",
+        "snake_gourd",
+        "anardana_powder",
+        "khoya",
+        "papad",
+        "flattened_young_rice",
+        "fenugreek_seed",
+        "indian_gooseberry"
+      ],
+      "method": "ica"
+    },
+    "2": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 2,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Savory Grains, Cheeses & Ferments",
+        "coherence": "moderate",
+        "themes": [
+          "cuisine",
+          "function",
+          "processing",
+          "texture"
+        ]
+      },
+      "pole_b": {
+        "label": "Sweet Baking & Confectionery",
+        "coherence": "high",
+        "themes": [
+          "category",
+          "function",
+          "processing",
+          "sensory"
+        ]
+      },
+      "axis": {
+        "label": "Savory-Fermented vs Sweet-Baked Confection",
+        "description": "This axis separates savory, protein-rich, and often fermented or grain-based ingredients (artisan cheeses, whole grains, fermented beverages, unrefined sugars used in savory contexts) from the world of Western-style sweet baking and confectionery (chocolate, cream, baking leaveners, dessert spices, and sugar-rich processed ingredients).",
+        "type": "mixed",
+        "is_bipolar_dimension": true,
+        "notes": "Pole A is moderately coherent but heterogeneous: it mixes artisan cheeses, whole grains, fermented beverages, and alternative sweeteners (palm sugar, jaggery, xylitol). These alternative sweeteners load on the savory pole likely because they co-occur in non-Western or non-dessert recipe contexts rather than in Western baking. The factor appears to capture a Western dessert-baking repertoire (Pole B) versus everything else that is savory, fermented, or grain-forward (Pole A). The residualization after food-group regression means this is not simply a dairy-vs-grain split but a deeper co-occurrence pattern."
+      },
+      "secondary_lens": {
+        "type": "chemistry",
+        "label": "Protein-rich savory vs sugar-dense caloric sweetness",
+        "description": "Cross-cosine evidence strongly aligns Pole A with protein-fat ratio (+0.80), water content (+0.63), and protein (+0.60), while Pole B aligns with sugars (-0.78), carbohydrates (-0.73), and caloric density (-0.53), revealing a clear macronutrient axis from lean/hydrated/savory to sugar-dense/calorie-rich.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "USDA:protein_fat_ratio",
+          "cos": 0.7971
+        },
+        {
+          "direction": "USDA:water_g",
+          "cos": 0.6261
+        },
+        {
+          "direction": "USDA:protein_g",
+          "cos": 0.6032
+        },
+        {
+          "direction": "CF:pungent",
+          "cos": 0.4648
+        },
+        {
+          "direction": "CF:meaty",
+          "cos": 0.4618
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "USDA:sugars_g",
+          "cos": -0.779
+        },
+        {
+          "direction": "USDA:carbohydrate_g",
+          "cos": -0.7273
+        },
+        {
+          "direction": "USDA:sugar_carb_ratio",
+          "cos": -0.6846
+        },
+        {
+          "direction": "USDA:energy_kcal",
+          "cos": -0.6179
+        },
+        {
+          "direction": "USDA:caloric_density",
+          "cos": -0.5315
+        }
+      ],
+      "pole_a_top": [
+        "palm_sugar",
+        "vegetable_juice",
+        "dango",
+        "rock_sugar",
+        "jaggery",
+        "allulose",
+        "grass_jelly",
+        "sweet_roll",
+        "sanzi",
+        "clamato_juice"
+      ],
+      "pole_b_top": [
+        "shortening",
+        "cacao",
+        "gingersnap",
+        "creme_de_cacao",
+        "cream_cheese",
+        "food_coloring",
+        "ice_cream_cone",
+        "violet",
+        "ice_cream",
+        "peppermint"
+      ],
+      "method": "ica"
+    },
+    "3": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 3,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Cocktail Bar Mixology",
+        "coherence": "high",
+        "themes": [
+          "function",
+          "cuisine",
+          "sensory",
+          "processing"
+        ]
+      },
+      "pole_b": {
+        "label": "East Asian Teas, Rice Wines & Plant Milks",
+        "coherence": "moderate",
+        "themes": [
+          "cuisine",
+          "processing",
+          "category"
+        ]
+      },
+      "axis": {
+        "label": "Western Cocktail Culture vs East Asian Beverage Traditions",
+        "description": "This axis separates the bright, sweet, aromatic world of Western cocktail mixology\u2014spirits, liqueurs, syrups, citrus, and carbonated mixers\u2014from a cluster of East Asian teas, rice-based wines, and plant-based milks that represent a distinct, quieter beverage tradition.",
+        "type": "mixed",
+        "is_bipolar_dimension": true,
+        "notes": "Pole A is extremely coherent around cocktail ingredients (spirits, liqueurs, syrups, citrus, garnishes). Pole B is more heterogeneous but anchored by East Asian teas (pu-erh, oolong, brick tea, matcha), rice wines (shaoxing, baijiu, rice wine, amazake), and plant milks (oat, soy, rice, almond). Some outliers in Pole B (fines herbes, marsala wine, clamato juice) reduce coherence. The neutral band contains savory cooking staples (meats, cheeses, mushrooms, grains) that belong to neither beverage world. The factor likely captures co-occurrence patterns from recipe contexts: cocktail recipes vs tea/rice-wine-based preparations."
+      },
+      "secondary_lens": {
+        "type": "sensory",
+        "label": "Sweet-floral-balsamic brightness vs muted-nutty depth",
+        "description": "Cross-cosine evidence shows Pole A strongly aligns with balsamic, floral, sweet, and green compound features (all >0.35), while Pole B aligns with nutty, pungent, and protein-rich profiles, reflecting a sensory contrast between bright aromatic sweetness and subdued earthy-nutty depth.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CF:balsamic",
+          "cos": 0.4904
+        },
+        {
+          "direction": "CF:floral",
+          "cos": 0.4903
+        },
+        {
+          "direction": "CF:sweet",
+          "cos": 0.4694
+        },
+        {
+          "direction": "USDA:sugar_carb_ratio",
+          "cos": 0.3783
+        },
+        {
+          "direction": "CF:green",
+          "cos": 0.3504
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "USDA:protein_g",
+          "cos": -0.4694
+        },
+        {
+          "direction": "USDA:protein_fat_ratio",
+          "cos": -0.4482
+        },
+        {
+          "direction": "CF:pungent",
+          "cos": -0.4142
+        },
+        {
+          "direction": "CF:nutty",
+          "cos": -0.3751
+        },
+        {
+          "direction": "USDA:sodium_mg",
+          "cos": -0.3284
+        }
+      ],
+      "pole_a_top": [
+        "grenadine",
+        "orgeat",
+        "absinthe",
+        "maraschino_liqueur",
+        "elderflower",
+        "sherbet",
+        "sour_mix",
+        "lillet",
+        "bitters",
+        "gin"
+      ],
+      "pole_b_top": [
+        "soju",
+        "fruit_tea",
+        "osmanthus_wine",
+        "shochu",
+        "zao_lu",
+        "monk_fruit",
+        "earl_grey_tea",
+        "chicha",
+        "quince_paste",
+        "korean_rice_wine"
+      ],
+      "method": "ica"
+    },
+    "4": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 4,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Vietnamese & Southeast Asian Pantry",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "category",
+          "processing"
+        ]
+      },
+      "pole_b": {
+        "label": "Mediterranean & Western Hearty Ingredients",
+        "coherence": "moderate",
+        "themes": [
+          "cuisine",
+          "category",
+          "function"
+        ]
+      },
+      "axis": {
+        "label": "Southeast Asian Tropical vs. Mediterranean-Western Temperate",
+        "description": "This axis separates a tightly coherent cluster of Vietnamese and broader Southeast Asian ingredients\u2014tropical flowers, freshwater fish, rice-based products, fermented fish condiments, and aromatic herbs\u2014from a diffuse collection of Mediterranean, European, and temperate-climate ingredients including lamb, root vegetables, European herbs, soy-based Chinese sauces, and seaweed.",
+        "type": "cuisine",
+        "is_bipolar_dimension": true,
+        "notes": "Pole A is extremely coherent around Vietnamese cuisine specifically\u2014many ingredients (rice paddy herb, Vietnamese coriander, Vietnamese pork roll, la giang leaf, balut, banana blossom) are canonical Vietnamese items. Pole B is more diffuse, mixing Mediterranean herbs (rosemary, thyme, herbes de Provence), European proteins (lamb, goat, horse meat), East Asian sauces (shaoxing wine, dark/light soy sauce), and temperate vegetables (rutabaga, cabbage, zucchini). The bipolarity is moderate: the poles are geographically and climatically distinct but Pole B lacks the tight coherence of Pole A."
+      },
+      "secondary_lens": {
+        "type": "sensory",
+        "label": "Spicy-nutty tropical freshness vs. dense savory richness",
+        "description": "Cross-cosine evidence shows Pole A aligning with spicy (+0.34), nutty (+0.31), and high water content (+0.28), while Pole B aligns with higher caloric density (\u22120.32) and energy (\u22120.32), suggesting a sensory contrast between light, pungent, water-rich tropical ingredients and calorically dense, hearty temperate ones.",
+        "confidence": "moderate"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": 0.6929
+        },
+        {
+          "direction": "CUI:East_Asian",
+          "cos": 0.4068
+        },
+        {
+          "direction": "CF:spicy",
+          "cos": 0.3447
+        },
+        {
+          "direction": "CF:nutty",
+          "cos": 0.3051
+        },
+        {
+          "direction": "USDA:water_g",
+          "cos": 0.2836
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": -0.5021
+        },
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": -0.4236
+        },
+        {
+          "direction": "USDA:energy_kcal",
+          "cos": -0.3238
+        },
+        {
+          "direction": "USDA:caloric_density",
+          "cos": -0.3166
+        },
+        {
+          "direction": "CUI:Eastern_European",
+          "cos": -0.3005
+        }
+      ],
+      "pole_a_top": [
+        "water_lily_flower",
+        "agati_flower",
+        "water_mimosa",
+        "sau_fruit",
+        "banana_blossom",
+        "rice_paddy_herb",
+        "vietnamese_coriander",
+        "vietnamese_pork_roll",
+        "annatto_seed",
+        "culantro"
+      ],
+      "pole_b_top": [
+        "grouse",
+        "crab_mushroom",
+        "lovage",
+        "asparagus",
+        "montreal_steak_seasoning",
+        "horse_meat",
+        "dark_soy_sauce",
+        "flageolet_bean",
+        "sichuan_peppercorn",
+        "gnocchi"
+      ],
+      "method": "ica"
+    },
+    "5": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 5,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Italian-Mediterranean Savory Pantry",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "category",
+          "function"
+        ]
+      },
+      "pole_b": {
+        "label": "Eastern European & Caucasian Pantry",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "processing",
+          "category"
+        ]
+      },
+      "axis": {
+        "label": "Italian-Mediterranean vs Eastern European-Caucasian Cuisine",
+        "description": "This axis separates ingredients characteristic of Italian and broader Mediterranean cooking (aged Italian cheeses, pasta, Italian sauces, cured meats, Mediterranean vegetables) from ingredients strongly associated with Eastern European and Caucasian cuisines (fermented dairy like kefir/ryazhenka/matsoni, Georgian spice blends, pickled/brined items, buckwheat, herring, sprats, and tart berries).",
+        "type": "cuisine",
+        "is_bipolar_dimension": true,
+        "notes": "The cross-cosine evidence strongly confirms the cultural axis (CUI:Eastern_European at -0.80). The meaty compound-feature alignment with Pole A (+0.21) is weak and likely reflects Italian cured meats (bresaola, capicola, mortadella). The secondary processing lens captures the most salient non-cultural distinction: Pole B ingredients are overwhelmingly fermented, pickled, or preserved, while Pole A ingredients tend toward fresh or simply aged forms."
+      },
+      "secondary_lens": {
+        "type": "processing",
+        "label": "Fresh-assembled vs fermented-preserved-pickled",
+        "description": "Pole A centers on ingredients used relatively fresh or simply aged (Italian cheeses, fresh pasta, sauces, greens), while Pole B is dominated by fermented dairy (kefir, ryazhenka, matsoni, bryndza), pickled/brined items (sauerkraut, pickled cucumber, brine), smoked/cured fish (sprat, herring, balyk), and tart preserved fruits (lingonberry, barberry), reflecting a strong fermentation-and-preservation processing axis.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CF:meaty",
+          "cos": 0.2121
+        },
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": 0.1482
+        },
+        {
+          "direction": "USDA:water_g",
+          "cos": 0.1367
+        },
+        {
+          "direction": "CUI:East_Asian",
+          "cos": 0.1309
+        },
+        {
+          "direction": "CF:pungent",
+          "cos": 0.124
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:Eastern_European",
+          "cos": -0.804
+        },
+        {
+          "direction": "USDA:carbohydrate_g",
+          "cos": -0.1461
+        },
+        {
+          "direction": "USDA:energy_kcal",
+          "cos": -0.1269
+        },
+        {
+          "direction": "CF:bitter",
+          "cos": -0.1173
+        },
+        {
+          "direction": "USDA:caloric_density",
+          "cos": -0.1031
+        }
+      ],
+      "pole_a_top": [
+        "asiago_cheese",
+        "pecorino_cheese",
+        "fontina_cheese",
+        "italian_seasoning",
+        "grana_padano",
+        "provolone_cheese",
+        "calabrian_chili",
+        "romesco_sauce",
+        "tonguefish",
+        "sorghum"
+      ],
+      "pole_b_top": [
+        "citric_acid",
+        "flatbread",
+        "grape_leaf",
+        "wolffish",
+        "caraway_seed",
+        "quince",
+        "lingonberry",
+        "chinese_celery",
+        "balyk",
+        "wild_garlic"
+      ],
+      "method": "ica"
+    },
+    "6": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 6,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Mexican & Latin American Pantry",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "category",
+          "processing"
+        ]
+      },
+      "pole_b": {
+        "label": "European Continental Charcuterie & Aromatics",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "category",
+          "sensory"
+        ]
+      },
+      "axis": {
+        "label": "Latin American vs. European Continental Cuisine",
+        "description": "This axis separates a strongly coherent Mexican/Latin American ingredient cluster (chiles, corn products, Mexican cheeses, salsas, beans) from a European continental cluster centered on French-Italian cheeses, cured meats, herbs, truffles, and classic European sauces. The neutral band contains globally diverse ingredients with no affinity to either culinary tradition.",
+        "type": "cuisine",
+        "is_bipolar_dimension": true,
+        "notes": "The primary axis is strongly cuisine-driven, with Pole A being one of the most coherent Mexican/Latin American clusters possible and Pole B representing a French-Italian-Alpine European tradition. The secondary chemistry lens is moderate confidence because the cross-cosine magnitudes for non-cultural directions are relatively low (0.21-0.22), though the woody vs. nutty distinction does map meaningfully onto the ingredient profiles."
+      },
+      "secondary_lens": {
+        "type": "chemistry",
+        "label": "Woody-capsaicin warmth vs. nutty-umami richness",
+        "description": "Pole A aligns with woody aromatic compounds (CF:woody +0.22), consistent with dried chiles, corn husks, and achiote, while Pole B aligns with nutty flavor compounds (CF:nutty -0.21), consistent with aged cheeses, truffles, and toasted bread products.",
+        "confidence": "moderate"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:Latin_American",
+          "cos": 0.8645
+        },
+        {
+          "direction": "CF:woody",
+          "cos": 0.2195
+        },
+        {
+          "direction": "CF:citrus",
+          "cos": 0.1839
+        },
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": 0.1638
+        },
+        {
+          "direction": "CF:meaty",
+          "cos": 0.1507
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:East_Asian",
+          "cos": -0.2602
+        },
+        {
+          "direction": "CUI:Japanese",
+          "cos": -0.2407
+        },
+        {
+          "direction": "CF:nutty",
+          "cos": -0.2096
+        },
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": -0.1464
+        },
+        {
+          "direction": "CF:sour",
+          "cos": -0.1309
+        }
+      ],
+      "pole_a_top": [
+        "tomatillo",
+        "nopal",
+        "cotija_cheese",
+        "queso_fresco",
+        "panela_cheese",
+        "tamale",
+        "oaxaca_cheese",
+        "guajillo_chile",
+        "hominy",
+        "enchilada_sauce"
+      ],
+      "pole_b_top": [
+        "butter",
+        "basil",
+        "fontina_cheese",
+        "mixed_sprouts",
+        "cantal_cheese",
+        "parmesan_cheese",
+        "gruyere_cheese",
+        "capicola",
+        "taleggio_cheese",
+        "white_pepper"
+      ],
+      "method": "ica"
+    },
+    "7": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 7,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Health-Conscious Plant-Based Pantry",
+        "coherence": "high",
+        "themes": [
+          "function",
+          "processing",
+          "category",
+          "texture"
+        ]
+      },
+      "pole_b": {
+        "label": "Traditional Pastry & Rendered Fat Ingredients",
+        "coherence": "moderate",
+        "themes": [
+          "processing",
+          "cuisine",
+          "texture",
+          "function"
+        ]
+      },
+      "axis": {
+        "label": "Whole-Plant Functional Foods vs. Refined Culinary Craft Ingredients",
+        "description": "This axis separates modern health-oriented, plant-based, and alternative ingredients (non-dairy milks, superfoods, ancient grains, natural sweeteners, hydrocolloids) from traditional culinary craft ingredients centered on rendered animal fats, European/Asian pastry components, wines, and refined confectionery. The dimension captures a functional-philosophical divide between clean-label wellness formulation and classical indulgent gastronomy.",
+        "type": "mixed",
+        "is_bipolar_dimension": true,
+        "notes": "Pole A is remarkably coherent around the modern wellness/plant-based movement: alternative milks, superfoods (spirulina, acai, maca), ancient grains (spelt, teff, amaranth), alternative sweeteners (agave, stevia, coconut sugar), and functional additives (xanthan gum, psyllium husk, lecithin). Pole B is more heterogeneous but unites around classical culinary craft\u2014rendered animal fats (duck fat, chicken fat, goose fat, lard), European and Asian pastry (choux, fondant, gum paste, sponge cake), wines/spirits (baijiu, plum wine, red wine), and luxury garnish ingredients (saffron, pistachio, truffle oil, preserved lemon). The neutral band contains conventional everyday cooking ingredients (garlic, olive oil, milk, vinegar, common proteins) that belong to neither paradigm."
+      },
+      "secondary_lens": {
+        "type": "chemistry",
+        "label": "Carbohydrate-dense plant matter vs. fatty-savory richness",
+        "description": "Cross-cosine evidence shows Pole A strongly aligned with carbohydrate (+0.50), sugars (+0.37), and bitter/sweet compound features (+0.43/+0.38), reflecting the grain, seed, and natural-sweetener profile, while Pole B aligns with meaty (-0.45), fatty (-0.35), and water content (-0.41), reflecting rendered fats, pastry, and umami-rich stocks.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "USDA:carbohydrate_g",
+          "cos": 0.4967
+        },
+        {
+          "direction": "CF:bitter",
+          "cos": 0.427
+        },
+        {
+          "direction": "CF:sweet",
+          "cos": 0.3825
+        },
+        {
+          "direction": "USDA:sugars_g",
+          "cos": 0.3735
+        },
+        {
+          "direction": "USDA:energy_kcal",
+          "cos": 0.3395
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CF:meaty",
+          "cos": -0.4463
+        },
+        {
+          "direction": "USDA:water_g",
+          "cos": -0.411
+        },
+        {
+          "direction": "CF:fatty",
+          "cos": -0.3461
+        },
+        {
+          "direction": "USDA:sodium_mg",
+          "cos": -0.34
+        },
+        {
+          "direction": "CF:woody",
+          "cos": -0.3327
+        }
+      ],
+      "pole_a_top": [
+        "plant_based_milk",
+        "almond_milk",
+        "spirulina",
+        "carob",
+        "acai",
+        "psyllium_husk",
+        "xanthan_gum",
+        "maca",
+        "bee_pollen",
+        "spelt"
+      ],
+      "pole_b_top": [
+        "galette",
+        "preserved_lemon",
+        "pink_sauce",
+        "tortellini",
+        "egg_yolk",
+        "shio_koji",
+        "yakisoba_sauce",
+        "plum_wine",
+        "wine",
+        "baijiu"
+      ],
+      "method": "ica"
+    },
+    "8": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 8,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "American Deli & Convenience Foods",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "processing",
+          "function"
+        ]
+      },
+      "pole_b": {
+        "label": "Artisanal & Global Specialty Ingredients",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "processing",
+          "category"
+        ]
+      },
+      "axis": {
+        "label": "Processed Mainstream vs. Artisanal Specialty",
+        "description": "This axis separates heavily processed, mass-market American convenience foods (pre-made sauces, processed cheeses, deli meats, seasoning blends) from artisanal, specialty, and globally-sourced ingredients (heritage grains, specialty vinegars, game meats, aged cheeses, preserved citrus) that are more typical of chef-driven or fine-dining contexts.",
+        "type": "mixed",
+        "is_bipolar_dimension": true,
+        "notes": "Pole A is remarkably coherent around the American supermarket deli/condiment aisle: processed cheeses, bottled dressings, canned cream soups, seasoning packets, and cured deli meats. Pole B coheres around ingredients you'd find in a specialty grocery or fine-dining kitchen: preserved lemon, freekeh, farro, ricotta salata, verjuice, sherry vinegar, game meats, and artisanal cheeses. The neutral band contains globally diverse ingredients that don't fit neatly into either the mass-market or artisanal category. The CUI:Western_Atlantic alignment on Pole A likely reflects the American mainstream food culture, while the mild East/Southeast Asian signals on Pole B may reflect specialty Asian ingredients (rice noodles, mirin, ponzu) that cluster with the artisanal pole."
+      },
+      "secondary_lens": {
+        "type": "chemistry",
+        "label": "High-sodium savory-processed vs. subtle complexity",
+        "description": "The cross-cosine evidence shows strong alignment with sodium (+0.65), total fat (+0.45), earthy (+0.49), and savory (+0.43) on Pole A, reflecting the heavily salted, fat-laden, industrially flavored profile of processed convenience foods, while Pole B ingredients tend toward more nuanced, less sodium-dependent flavor profiles.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "USDA:sodium_mg",
+          "cos": 0.6503
+        },
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": 0.6394
+        },
+        {
+          "direction": "CF:earthy",
+          "cos": 0.49
+        },
+        {
+          "direction": "USDA:total_fat_g",
+          "cos": 0.4517
+        },
+        {
+          "direction": "CF:savory",
+          "cos": 0.4265
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CF:sweet",
+          "cos": -0.3544
+        },
+        {
+          "direction": "CF:minty",
+          "cos": -0.3473
+        },
+        {
+          "direction": "CUI:East_Asian",
+          "cos": -0.3252
+        },
+        {
+          "direction": "LLM:sweet",
+          "cos": -0.3246
+        },
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": -0.3055
+        }
+      ],
+      "pole_a_top": [
+        "crescent_roll",
+        "colby_cheese",
+        "ranch_dressing",
+        "american_cheese",
+        "swiss_cheese",
+        "pickle_relish",
+        "pepperoni",
+        "cheddar_cheese",
+        "taco_sauce",
+        "pizza_sauce"
+      ],
+      "pole_b_top": [
+        "clove",
+        "taleggio_cheese",
+        "mulato_chile",
+        "anise",
+        "salsify",
+        "mizuna",
+        "barramundi",
+        "rice_noodle",
+        "watermelon_radish",
+        "horse_meat"
+      ],
+      "method": "ica"
+    },
+    "9": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 9,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Chinese Tonic Soup Ingredients",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "function",
+          "processing"
+        ]
+      },
+      "pole_b": {
+        "label": "Diverse Global Vegetables & Pungent Accents",
+        "coherence": "incoherent",
+        "themes": [
+          "category",
+          "sensory"
+        ]
+      },
+      "axis": {
+        "label": "Chinese Nourishing Pantry vs. Global Savory-Pungent Miscellany",
+        "description": "Pole A is a highly coherent cluster of traditional Chinese tonic, double-boiled soup, and dessert soup ingredients\u2014medicinal herbs, dried seafood, collagen-rich proteins, and nourishing seeds/grains. Pole B is a diffuse collection of bitter greens, pungent alliums, fermented condiments, and assorted global ingredients with no single unifying concept, making this factor primarily a detector of the Chinese nourishing-soup tradition rather than a true bipolar dimension.",
+        "type": "cuisine",
+        "is_bipolar_dimension": false,
+        "notes": "Pole A is one of the most coherent clusters possible\u2014virtually every extreme and strong ingredient is a canonical Chinese double-boiled soup or tong sui component (snow fungus, bird's nest, fish maw, peach gum, astragalus, goji, lotus seed, etc.). Pole B lacks comparable coherence; it mixes bitter greens (radicchio, collard, Swiss chard), pungent alliums (chive, wild garlic, garlic chive), fermented items (kimchi, zha cai, stinky tofu), and random proteins (bison, kangaroo). The CUI:East_Asian cross-cosine (+0.59) confirms the cultural specificity. The nutty compound-feature alignment likely reflects the prevalence of seeds, nuts, and grains (fox nut, lotus seed, Job's tears, barley) in the tonic repertoire."
+      },
+      "secondary_lens": {
+        "type": "function",
+        "label": "Collagen-rich tonic and nourishing function",
+        "description": "Pole A ingredients are overwhelmingly used for their perceived health-nourishing, moisturizing, and qi-tonifying functions in Chinese herbal soups and sweet tong sui, united by collagen, polysaccharide, and adaptogenic properties; the cross-cosine nutty (+0.48) and floral (+0.28) signals reflect the mild, sweet, aromatic profile typical of these tonic preparations.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:East_Asian",
+          "cos": 0.5886
+        },
+        {
+          "direction": "CF:nutty",
+          "cos": 0.4794
+        },
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": 0.3139
+        },
+        {
+          "direction": "CF:floral",
+          "cos": 0.2838
+        },
+        {
+          "direction": "CF:minty",
+          "cos": 0.2633
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": -0.4613
+        },
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": -0.4265
+        },
+        {
+          "direction": "CF:citrus",
+          "cos": -0.3516
+        },
+        {
+          "direction": "USDA:total_fat_g",
+          "cos": -0.3354
+        },
+        {
+          "direction": "USDA:sodium_mg",
+          "cos": -0.3176
+        }
+      ],
+      "pole_a_top": [
+        "sea_coconut",
+        "lily_bulb",
+        "tiger_milk_mushroom",
+        "fox_nut",
+        "epiphyllum_flower",
+        "longan",
+        "astragalus_root",
+        "fish_maw",
+        "peach_gum",
+        "snow_fungus"
+      ],
+      "pole_b_top": [
+        "caperberry",
+        "zha_cai",
+        "watermelon_radish",
+        "fiddlehead_fern",
+        "jerusalem_artichoke",
+        "habanero_pepper",
+        "cauliflower",
+        "tangelo",
+        "viburnum",
+        "garlic_chive"
+      ],
+      "method": "ica"
+    },
+    "10": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 10,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Japanese Pantry Staples",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "function",
+          "processing"
+        ]
+      },
+      "pole_b": {
+        "label": "Chinese & Mediterranean Whole Fish & Aromatics",
+        "coherence": "moderate",
+        "themes": [
+          "cuisine",
+          "category",
+          "processing"
+        ]
+      },
+      "axis": {
+        "label": "Japanese Home Cooking vs Chinese-Mediterranean Seafood Cookery",
+        "description": "This axis separates the Japanese everyday pantry \u2014 dashi-based sauces, processed fish products, condiments, and leafy greens used in washoku \u2014 from a cluster of whole fresh-water and salt-water fish, fermented Chinese seasonings, and Mediterranean aromatics that co-occur in Chinese and broader non-Japanese seafood preparations.",
+        "type": "cuisine",
+        "is_bipolar_dimension": true,
+        "notes": "The factor is strongly cultural (Japanese cosine +0.85), but the processing gradient \u2014 manufactured umami-rich products vs. whole fish and simple aromatics \u2014 provides a clear non-cultural secondary reading. Pole B is less coherent, mixing Chinese freshwater fish, Mediterranean vegetables (artichoke, cardoon, fennel), and basic seasonings (salt, MSG, garlic), united mainly by their absence from the Japanese co-occurrence cluster."
+      },
+      "secondary_lens": {
+        "type": "processing",
+        "label": "Processed umami condiments vs whole raw ingredients",
+        "description": "Pole A is dominated by highly processed, shelf-stable condiments and prepared sauces (mentsuyu, ponzu, furikake, dashi, mirin) rich in nutty and umami compound features, while Pole B centers on minimally processed whole fish and basic aromatics (garlic, shallot, salt, peanut oil), consistent with the cross-cosine loading on nutty (+0.34) and water content (+0.27) for Pole A versus woody (\u22120.34) and citrus (\u22120.36) aromatic profiles for Pole B.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:Japanese",
+          "cos": 0.8474
+        },
+        {
+          "direction": "CF:nutty",
+          "cos": 0.3418
+        },
+        {
+          "direction": "CUI:East_Asian",
+          "cos": 0.2874
+        },
+        {
+          "direction": "USDA:water_g",
+          "cos": 0.27
+        },
+        {
+          "direction": "CF:bitter",
+          "cos": 0.2196
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": -0.3782
+        },
+        {
+          "direction": "CF:citrus",
+          "cos": -0.3614
+        },
+        {
+          "direction": "CF:woody",
+          "cos": -0.3399
+        },
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": -0.3297
+        },
+        {
+          "direction": "CUI:Latin_American",
+          "cos": -0.2728
+        }
+      ],
+      "pole_a_top": [
+        "mentsuyu",
+        "chikuwa",
+        "tenkasu",
+        "sake",
+        "komatsuna",
+        "ponzu",
+        "burdock_root",
+        "bonito_flakes",
+        "dashi",
+        "shichimi_togarashi"
+      ],
+      "pole_b_top": [
+        "fermented_fish",
+        "garlic",
+        "mandarin_fish",
+        "cardoon",
+        "shallot",
+        "artichoke",
+        "fermented_tofu",
+        "mullet",
+        "green_chili",
+        "fermented_black_bean"
+      ],
+      "method": "ica"
+    },
+    "11": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 11,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "East Asian Specialty Ingredients",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "processing",
+          "function",
+          "sensory"
+        ]
+      },
+      "pole_b": {
+        "label": "Western Seafood & Classic Sauces",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "category",
+          "function"
+        ]
+      },
+      "axis": {
+        "label": "East Asian Specialty vs Western Seafood-Sauce Repertoire",
+        "description": "This axis separates a dense cluster of East Asian (Chinese, Korean, Southeast Asian) specialty ingredients\u2014fermented pastes, regional fish, wild vegetables, street-food starches\u2014from a Western/Atlantic-oriented repertoire of mild white fish, classic French-derived sauces, vinegars, and anise-flavored spirits. The two poles represent distinct culinary ecosystems rather than endpoints of a single sensory gradient.",
+        "type": "cuisine",
+        "is_bipolar_dimension": false,
+        "notes": "The factor is primarily cultural-geographic after food-group residualization, separating East Asian pantry rarities from Western Atlantic seafood and French-tradition sauces. The secondary sensory lens captures a real but secondary contrast: Pole A's fermented/spicy pungency versus Pole B's mild, fat-carried delicacy. Many Pole A items are niche regional Chinese or Korean specialties, while Pole B items are broadly familiar in Western fine-dining and home cooking contexts."
+      },
+      "secondary_lens": {
+        "type": "sensory",
+        "label": "Pungent-fermented complexity vs mild-clean delicacy",
+        "description": "Pole A ingredients are dominated by fermented, funky, and spicy flavor profiles (fermented pastes, chili sauces, stinky fish, preserved vegetables) supported by cross-cosine loadings on nutty (+0.38) and spicy (+0.36), while Pole B centers on clean, mild-flavored white fish and refined emulsion sauces with higher fat content (total_fat \u22120.32), indicating a pungent-complex vs delicate-clean sensory contrast.",
+        "confidence": "moderate"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:East_Asian",
+          "cos": 0.726
+        },
+        {
+          "direction": "CF:nutty",
+          "cos": 0.3768
+        },
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": 0.362
+        },
+        {
+          "direction": "CF:spicy",
+          "cos": 0.3601
+        },
+        {
+          "direction": "CUI:Japanese",
+          "cos": 0.3548
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": -0.6304
+        },
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": -0.5607
+        },
+        {
+          "direction": "CUI:Latin_American",
+          "cos": -0.3922
+        },
+        {
+          "direction": "USDA:total_fat_g",
+          "cos": -0.3236
+        },
+        {
+          "direction": "USDA:caloric_density",
+          "cos": -0.3181
+        }
+      ],
+      "pole_a_top": [
+        "puffer_fish",
+        "mapo_tofu_sauce",
+        "crab_claw_fish",
+        "shaobing",
+        "hunan_chopped_chili",
+        "fermented_chive_flower_paste",
+        "fried_dough_twist",
+        "zhajiang_sauce",
+        "bai_ji_mo",
+        "yak_meat"
+      ],
+      "pole_b_top": [
+        "salmon",
+        "okra",
+        "branzino",
+        "scotch_bonnet_pepper",
+        "tamarind",
+        "scallop",
+        "cod",
+        "peppercorn_sauce",
+        "wasabi",
+        "sushi_vinegar"
+      ],
+      "method": "ica"
+    },
+    "12": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 12,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Specialty & Niche Pantry Items",
+        "coherence": "moderate",
+        "themes": [
+          "category",
+          "processing",
+          "function"
+        ]
+      },
+      "pole_b": {
+        "label": "Universal Western Cooking Staples",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "function",
+          "category"
+        ]
+      },
+      "axis": {
+        "label": "Niche Specialty vs. Ubiquitous Staple",
+        "description": "This axis separates rare, specialty, or niche ingredients (unusual oils, preserved vegetables, exotic mushrooms, regional Chinese items) from the most universally used foundational cooking ingredients (garlic, onion, olive oil, black pepper, herbs, common proteins and aromatics). It captures ingredient ubiquity and recipe frequency.",
+        "type": "function",
+        "is_bipolar_dimension": true,
+        "notes": "Pole A is moderately coherent: it mixes Chinese preserved vegetables, specialty oils/seeds, unusual proteins, and niche spice blends \u2014 united mainly by their rarity in mainstream recipe corpora rather than a single culinary tradition. The strong East Asian cross-cosine (+0.46) reflects the prevalence of Chinese specialty items but the pole also includes edam cheese, braunschweiger, croissant, and eggnog, so the cultural signal is secondary to the rarity/specialty function. Pole B is essentially a ranked list of the most commonly co-occurring recipe ingredients in Western and global cooking. The factor likely captures a frequency/ubiquity gradient residualized from food-group effects."
+      },
+      "secondary_lens": {
+        "type": "sensory",
+        "label": "Nutty-floral niche vs. bitter-umami-sour workhorse",
+        "description": "Pole A aligns with nutty (+0.41) and floral (+0.24) compound features reflecting the delicate, specialty character of its oils, seeds, and preserved items, while Pole B loads on bitter (-0.46), fatty (-0.45), sour (-0.42), and umami (-0.39) \u2014 the robust, multi-dimensional savory flavor profile of everyday cooking foundations.",
+        "confidence": "moderate"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:East_Asian",
+          "cos": 0.4591
+        },
+        {
+          "direction": "CF:nutty",
+          "cos": 0.4092
+        },
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": 0.3028
+        },
+        {
+          "direction": "CUI:Japanese",
+          "cos": 0.2875
+        },
+        {
+          "direction": "CF:floral",
+          "cos": 0.2416
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "LLM:bitter",
+          "cos": -0.4635
+        },
+        {
+          "direction": "LLM:fatty",
+          "cos": -0.4515
+        },
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": -0.4238
+        },
+        {
+          "direction": "LLM:sour",
+          "cos": -0.4209
+        },
+        {
+          "direction": "LLM:umami",
+          "cos": -0.3896
+        }
+      ],
+      "pole_a_top": [
+        "snow_vegetable",
+        "camellia_oil",
+        "goose_egg",
+        "sushi_vinegar",
+        "clover",
+        "mixed_grains",
+        "egg_tofu",
+        "shepherds_purse",
+        "braunschweiger",
+        "mulling_spice"
+      ],
+      "pole_b_top": [
+        "bacon",
+        "caper",
+        "balsamic_vinegar",
+        "rosemary",
+        "coriander",
+        "mustard",
+        "cayenne_pepper",
+        "lemon",
+        "mint",
+        "bread_crumbs"
+      ],
+      "method": "ica"
+    },
+    "13": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 13,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Asian Confectionery & Dough Ingredients",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "processing",
+          "texture",
+          "function"
+        ]
+      },
+      "pole_b": {
+        "label": "Eclectic Western-Leaning Pantry Items",
+        "coherence": "incoherent",
+        "themes": [
+          "cuisine",
+          "category"
+        ]
+      },
+      "axis": {
+        "label": "East/Southeast Asian Starchy Confections vs. Global Savory-Sweet Pantry",
+        "description": "Pole A clusters tightly around East and Southeast Asian baking, confectionery, and mochi-style preparations \u2014 glutinous rice flour, bean pastes, specialty colorants (charcoal, butterfly pea, matcha), and dough-processing aids. Pole B is a diffuse grab-bag of Western/global items (cheeses, nut oils, noodles, fudge, crispbread) with no single unifying concept, making this primarily a cultural-processing separation rather than a clean bipolar dimension.",
+        "type": "mixed",
+        "is_bipolar_dimension": false,
+        "notes": "Pole A is highly coherent around East/Southeast Asian confectionery and dough-making (bean pastes, glutinous rice, specialty powders, lye water, dough improvers). Pole B is incoherent \u2014 it mixes European cheeses, nut oils, noodles, fudge, and condiments from many traditions. The factor likely captures a specific Asian confectionery co-occurrence cluster, with Pole B simply being 'everything else that rarely co-occurs with those ingredients.' The nutty cross-cosine alignment for Pole A likely reflects the prominence of red bean, mung bean, and sesame-based fillings."
+      },
+      "secondary_lens": {
+        "type": "chemistry",
+        "label": "Nutty starchy-sweet vs. savory-citrus-woody",
+        "description": "Cross-cosine evidence shows Pole A loading on nutty (+0.45) and carbohydrate (+0.36) features consistent with its bean-paste and glutinous-starch identity, while Pole B loads on savory (\u22120.33), citrus (\u22120.35), and woody (\u22120.32) notes, suggesting a chemical contrast between starchy-nutty sweetness and savory-aromatic complexity.",
+        "confidence": "moderate"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CF:nutty",
+          "cos": 0.4546
+        },
+        {
+          "direction": "USDA:carbohydrate_g",
+          "cos": 0.3649
+        },
+        {
+          "direction": "CUI:East_Asian",
+          "cos": 0.3351
+        },
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": 0.2989
+        },
+        {
+          "direction": "CF:bitter",
+          "cos": 0.2679
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "USDA:sodium_mg",
+          "cos": -0.3749
+        },
+        {
+          "direction": "CF:citrus",
+          "cos": -0.3489
+        },
+        {
+          "direction": "CF:savory",
+          "cos": -0.3285
+        },
+        {
+          "direction": "CF:woody",
+          "cos": -0.318
+        },
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": -0.3159
+        }
+      ],
+      "pole_a_top": [
+        "purple_sweet_potato",
+        "red_bean_paste",
+        "activated_charcoal_powder",
+        "mung_bean_paste",
+        "meat_floss",
+        "barley_grass",
+        "glutinous_rice_flour",
+        "pine_pollen",
+        "matcha_powder",
+        "durian"
+      ],
+      "pole_b_top": [
+        "sambuca",
+        "umeboshi_vinegar",
+        "stilton_cheese",
+        "pepper_jelly",
+        "lemon_leaf",
+        "muscovado_sugar",
+        "sea_coconut",
+        "noodle",
+        "hummus",
+        "cane_syrup"
+      ],
+      "method": "ica"
+    },
+    "14": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 14,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Eastern Mediterranean Mezze Pantry",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "function",
+          "processing"
+        ]
+      },
+      "pole_b": {
+        "label": "Northern European Hearty Cookery",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "function",
+          "processing",
+          "texture"
+        ]
+      },
+      "axis": {
+        "label": "Mediterranean Mezze vs. Northern European Braised Cookery",
+        "description": "This axis separates a bright, olive-oil-and-cheese-driven Eastern Mediterranean/Levantine mezze and flatbread tradition (Pole A) from a heavier, fat-rendered, slow-braised Northern European and Anglo-American comfort-food tradition built on game, root vegetables, gravies, and dark sauces (Pole B).",
+        "type": "cuisine",
+        "is_bipolar_dimension": true,
+        "notes": "The factor cleanly separates two well-defined culinary worlds. Pole A is anchored by Turkish cheeses (tulum, kasseri, kashkaval, ezine), cured meats (sucuk, pastrami), and Levantine condiments (zaatar, tahini, pomegranate molasses). Pole B is anchored by Anglo-French-German braising ingredients (roux, gravy, madeira wine, bouquet garni) and game meats (venison, wild boar, pheasant). The neutral band contains East Asian, Latin American, and miscellaneous items that belong to neither tradition. Cross-cosine evidence is modest but supports a secondary sensory reading of fresh-tangy vs. dark-woody-spicy."
+      },
+      "secondary_lens": {
+        "type": "sensory",
+        "label": "Bright tangy freshness vs. dark woody richness",
+        "description": "Pole A clusters around fresh, tangy, and herbaceous flavors (labneh, pomegranate molasses, sumac, vinaigrette) while Pole B aligns with woody, smoky, and deeply savory profiles (juniper, liquid smoke, pan drippings, browning sauce), consistent with the cross-cosine loading on woody (\u22120.20) and spicy (\u22120.23) for Pole B.",
+        "confidence": "moderate"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": 0.2114
+        },
+        {
+          "direction": "LLM:bitter",
+          "cos": 0.1905
+        },
+        {
+          "direction": "LLM:earthy",
+          "cos": 0.1628
+        },
+        {
+          "direction": "CF:sour",
+          "cos": 0.1584
+        },
+        {
+          "direction": "USDA:fiber_g",
+          "cos": 0.1494
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": -0.2515
+        },
+        {
+          "direction": "CF:spicy",
+          "cos": -0.2298
+        },
+        {
+          "direction": "CF:woody",
+          "cos": -0.2014
+        },
+        {
+          "direction": "CF:balsamic",
+          "cos": -0.112
+        },
+        {
+          "direction": "CF:floral",
+          "cos": -0.0854
+        }
+      ],
+      "pole_a_top": [
+        "sucuk",
+        "tulum_cheese",
+        "kasseri_cheese",
+        "pastrami",
+        "kashkaval_cheese",
+        "simit",
+        "salami",
+        "tapenade",
+        "ezine_cheese",
+        "yufka"
+      ],
+      "pole_b_top": [
+        "poultry_seasoning",
+        "bouquet_garni",
+        "worcestershire_sauce",
+        "spaetzle",
+        "gloucester_cheese",
+        "liquid_smoke",
+        "venison",
+        "marjoram",
+        "file_powder",
+        "duck_fat"
+      ],
+      "method": "ica"
+    },
+    "15": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 15,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Chinese Wok & Hot Pot Pantry",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "sensory",
+          "processing",
+          "function"
+        ]
+      },
+      "pole_b": {
+        "label": "Italian-Mediterranean Hearty Cooking",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "texture",
+          "processing",
+          "function"
+        ]
+      },
+      "axis": {
+        "label": "East Asian vs Mediterranean Culinary Traditions",
+        "description": "This axis separates the Chinese/East Asian pantry of soy sauces, fermented bean pastes, chili oils, starch noodles, and aromatic alliums from the Italian-Mediterranean world of cured meats, aged cheeses, beans, bitter greens, truffles, and fortified wines. The two poles represent distinct culinary ecosystems with contrasting seasoning logic, protein/fat sources, and vegetable repertoires.",
+        "type": "cuisine",
+        "is_bipolar_dimension": true,
+        "notes": "The factor is strongly culinary-geographic after food-group regression, yet the secondary sensory contrast is clear: Pole A's heat and toasted-sesame nuttiness versus Pole B's fat-rich, umami-from-curing profile. Some overlap exists (e.g., fermented products on both sides), but the dominant split is East Asian aromatic pungency vs. Mediterranean lipid richness."
+      },
+      "secondary_lens": {
+        "type": "sensory",
+        "label": "Spicy-nutty pungency vs rich fatty depth",
+        "description": "Cross-cosine evidence shows Pole A aligning with spicy (+0.49) and nutty (+0.52) compound features\u2014consistent with Sichuan peppercorns, chili oils, and sesame\u2014while Pole B aligns with caloric density (-0.54) and total fat (-0.46), reflecting the richness of cured meats, aged cheeses, truffle oil, and pancetta.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:East_Asian",
+          "cos": 0.8354
+        },
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": 0.5492
+        },
+        {
+          "direction": "CF:nutty",
+          "cos": 0.5224
+        },
+        {
+          "direction": "CUI:Japanese",
+          "cos": 0.4965
+        },
+        {
+          "direction": "CF:spicy",
+          "cos": 0.4915
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": -0.7743
+        },
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": -0.6059
+        },
+        {
+          "direction": "USDA:caloric_density",
+          "cos": -0.5392
+        },
+        {
+          "direction": "USDA:energy_kcal",
+          "cos": -0.5059
+        },
+        {
+          "direction": "USDA:total_fat_g",
+          "cos": -0.4587
+        }
+      ],
+      "pole_a_top": [
+        "light_soy_sauce",
+        "shaoxing_wine",
+        "soy_sauce",
+        "oyster_sauce",
+        "ginger",
+        "sichuan_peppercorn",
+        "doubanjiang",
+        "birds_eye_chili",
+        "sesame_oil",
+        "chili_pepper"
+      ],
+      "pole_b_top": [
+        "escarole",
+        "chanterelle_mushroom",
+        "white_bean",
+        "juniper_berry",
+        "mortadella",
+        "dandelion",
+        "farro",
+        "speck",
+        "black_truffle",
+        "pecorino_cheese"
+      ],
+      "method": "ica"
+    },
+    "16": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 16,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Tropical Dessert Drinks & Jellies",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "sensory",
+          "texture",
+          "function"
+        ]
+      },
+      "pole_b": {
+        "label": "Hearty Baking & Dark Syrup Staples",
+        "coherence": "moderate",
+        "themes": [
+          "processing",
+          "texture",
+          "function",
+          "category"
+        ]
+      },
+      "axis": {
+        "label": "Light Tropical Confections vs Dense Baked Goods",
+        "description": "This axis separates light, hydrated, sweet-floral dessert beverages and jellies (tapioca pearls, teas, tropical fruits, agar, condensed milk) from dense, grain-based baking ingredients and dark syrups (flour, molasses, yeast, suet, whole grains). It captures a fundamental contrast in water content, textural lightness, and processing style.",
+        "type": "mixed",
+        "is_bipolar_dimension": true,
+        "notes": "Pole A is strongly anchored in Southeast Asian and East Asian dessert drink culture (bubble tea, grass jelly, agar desserts, tropical fruits, floral teas). Pole B is more diffuse, mixing Western/Mediterranean baking staples (flour, yeast, molasses, graham flour) with some Anatolian/Balkan ingredients (mahleb, sucuk, kashkaval). The bipolar interpretation holds because the axis tracks a genuine physical property gradient (hydration, density, textural weight) even though the cultural contexts differ substantially."
+      },
+      "secondary_lens": {
+        "type": "texture",
+        "label": "Hydrated gel-like lightness vs dense dry mass",
+        "description": "Cross-cosine evidence shows Pole A aligns with water content (+0.27) and sweetness/floral notes, while Pole B aligns with energy density (-0.23) and fat content (-0.22), reflecting a textural continuum from soft, hydrated, gelatinous dessert components to heavy, dry, calorie-dense baking substrates.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": 0.326
+        },
+        {
+          "direction": "USDA:water_g",
+          "cos": 0.2667
+        },
+        {
+          "direction": "LLM:sweet",
+          "cos": 0.2071
+        },
+        {
+          "direction": "LLM:floral",
+          "cos": 0.2048
+        },
+        {
+          "direction": "LLM:nutty",
+          "cos": 0.2017
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": -0.2437
+        },
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": -0.238
+        },
+        {
+          "direction": "CF:savory",
+          "cos": -0.2378
+        },
+        {
+          "direction": "USDA:energy_kcal",
+          "cos": -0.2335
+        },
+        {
+          "direction": "USDA:total_fat_g",
+          "cos": -0.2243
+        }
+      ],
+      "pole_a_top": [
+        "tapioca_pearl",
+        "oolong_tea",
+        "jasmine_tea",
+        "agar",
+        "mango",
+        "palm_seed",
+        "ice_jelly",
+        "aloe_vera",
+        "dragon_fruit",
+        "grass_jelly"
+      ],
+      "pole_b_top": [
+        "flour",
+        "cattail",
+        "okara_powder",
+        "mincemeat",
+        "yeast",
+        "suet",
+        "bakers_ammonia",
+        "black_treacle",
+        "kashkaval_cheese",
+        "gluten_free_flour"
+      ],
+      "method": "ica"
+    },
+    "17": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 17,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Pan-Asian Fusion Condiments & Proteins",
+        "coherence": "moderate",
+        "themes": [
+          "cuisine",
+          "function",
+          "processing"
+        ]
+      },
+      "pole_b": {
+        "label": "Iberian & Latin American Hearty Pantry",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "processing",
+          "texture"
+        ]
+      },
+      "axis": {
+        "label": "Pan-Asian Bright Fusion vs. Iberian-Latin Rustic Tradition",
+        "description": "This axis separates a broadly pan-Asian and fusion-oriented ingredient set\u2014vinegars, chili sauces, light proteins, and fresh vegetables\u2014from a deeply Iberian/Latin American cluster of cured meats, dried chiles, starchy bases, and rich stocks. The two poles represent distinct culinary ecosystems with contrasting flavor profiles.",
+        "type": "cuisine",
+        "is_bipolar_dimension": true,
+        "notes": "Pole A is eclectic, mixing East Asian staples (hoisin, tamari, somen) with Tex-Mex/fusion items (jalape\u00f1o, jerk seasoning, fry sauce), united more by a bright, acidic, condiment-forward cooking style than a single cuisine. Pole B is more coherent, dominated by Spanish (choricero pepper, butifarra, serrano ham, picada) and South American (aji panca, olluco, huacatay, chicha) ingredients with heavy, earthy, slow-cooked character. The factor likely captures a co-occurrence pattern where Asian-fusion restaurant menus diverge sharply from Iberian/Latin American ones."
+      },
+      "secondary_lens": {
+        "type": "sensory",
+        "label": "Bright-sweet-tangy vs. savory-earthy-fatty",
+        "description": "Cross-cosine evidence shows Pole A aligning with bitter (+0.35), sweet (+0.21), and minty (+0.20) compound features\u2014consistent with its vinegars, chili sauces, and fresh vegetables\u2014while Pole B aligns with savory (-0.35), earthy (-0.34), and total fat (-0.26), reflecting its cured meats, stocks, and starchy preparations.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CF:bitter",
+          "cos": 0.3452
+        },
+        {
+          "direction": "CUI:East_Asian",
+          "cos": 0.2253
+        },
+        {
+          "direction": "CUI:Southeast_Asian",
+          "cos": 0.2118
+        },
+        {
+          "direction": "CF:sweet",
+          "cos": 0.2104
+        },
+        {
+          "direction": "CF:minty",
+          "cos": 0.2039
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CF:savory",
+          "cos": -0.347
+        },
+        {
+          "direction": "CF:earthy",
+          "cos": -0.3414
+        },
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": -0.3378
+        },
+        {
+          "direction": "CUI:Eastern_European",
+          "cos": -0.2567
+        },
+        {
+          "direction": "USDA:total_fat_g",
+          "cos": -0.2565
+        }
+      ],
+      "pole_a_top": [
+        "plum_sauce",
+        "somen_noodle",
+        "hoisin_sauce",
+        "rice_vinegar",
+        "jalapeno",
+        "malt_vinegar",
+        "sriracha",
+        "egg_roll_wrapper",
+        "sugar_snap_pea",
+        "pita_bread"
+      ],
+      "pole_b_top": [
+        "ravioli",
+        "pink_sauce",
+        "matambre",
+        "cava",
+        "longaniza",
+        "lacon",
+        "romesco_sauce",
+        "padron_pepper",
+        "meat_extract",
+        "serrano_ham"
+      ],
+      "method": "ica"
+    },
+    "18": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 18,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Preserving, Pickling & Botanical Infusions",
+        "coherence": "moderate",
+        "themes": [
+          "processing",
+          "chemistry",
+          "sensory",
+          "function"
+        ]
+      },
+      "pole_b": {
+        "label": "East/Southeast Asian Savory Cooking",
+        "coherence": "high",
+        "themes": [
+          "cuisine",
+          "function",
+          "processing"
+        ]
+      },
+      "axis": {
+        "label": "Acidic-Floral Preserves vs. Savory Protein-Rich Stir-Fry",
+        "description": "This axis separates ingredients associated with pickling, preserving, and botanical/floral infusions (acidic, sweet, balsamic, bitter) from savory East and Southeast Asian cooking staples (mushrooms, curry pastes, stir-fry sauces, proteins). The dimension runs from acid-sweet-floral preservation chemistry to umami-rich, protein-dense savory preparations.",
+        "type": "mixed",
+        "is_bipolar_dimension": true,
+        "notes": "Pole A is diverse but unified by preservation techniques (brine, alum, pickling spice, curing salt, vinegar, calcium chloride, citric acid) and botanical/herbal infusions (chrysanthemum, honeysuckle, dandelion, gardenia, edible flowers, teas). Pole B is strongly anchored in Chinese and Southeast Asian savory cuisine with curry pastes, mushroom varieties, stir-fry sauces, and preserved meats. The neutral band contains a mix of unrelated items confirming the factor captures a specific contrast rather than a general gradient."
+      },
+      "secondary_lens": {
+        "type": "chemistry",
+        "label": "Balsamic-floral acidity vs. meaty-protein savory",
+        "description": "Cross-cosine evidence shows Pole A aligning with balsamic (+0.35), sweet (+0.31), floral (+0.26), and bitter (+0.22) compound features, while Pole B aligns with meaty (-0.32), protein-fat ratio (-0.32), nutty (-0.27), and protein (-0.21), revealing a clear chemical axis from acidic-floral-sweet preservation to protein-rich umami savoriness.",
+        "confidence": "high"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CF:balsamic",
+          "cos": 0.3525
+        },
+        {
+          "direction": "CF:sweet",
+          "cos": 0.3077
+        },
+        {
+          "direction": "CF:floral",
+          "cos": 0.2607
+        },
+        {
+          "direction": "CUI:Mediterranean",
+          "cos": 0.2417
+        },
+        {
+          "direction": "LLM:bitter",
+          "cos": 0.2194
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "CF:meaty",
+          "cos": -0.3246
+        },
+        {
+          "direction": "USDA:protein_fat_ratio",
+          "cos": -0.3178
+        },
+        {
+          "direction": "CF:nutty",
+          "cos": -0.2692
+        },
+        {
+          "direction": "USDA:protein_g",
+          "cos": -0.2118
+        },
+        {
+          "direction": "CUI:East_Asian",
+          "cos": -0.1995
+        }
+      ],
+      "pole_a_top": [
+        "preserved_plum",
+        "dandelion",
+        "brine",
+        "alum",
+        "mung_bean_jelly",
+        "pickling_spice",
+        "fermented_glutinous_rice",
+        "hawthorn",
+        "white_vinegar",
+        "chrysanthemum"
+      ],
+      "pole_b_top": [
+        "bok_choy",
+        "coconut_cream",
+        "kangaroo",
+        "vegetable_stock",
+        "chinese_sausage",
+        "yellow_curry_paste",
+        "pearl_mushroom",
+        "bamboo_salt",
+        "xo_sauce",
+        "mushroom"
+      ],
+      "method": "ica"
+    },
+    "19": {
+      "model": "cooc",
+      "n": 20,
+      "factor": 19,
+      "run_tag": "ica_v1",
+      "llm_tag": "claude",
+      "llm_model": "claude-opus-4-6",
+      "pole_a": {
+        "label": "Umami-Rich Savory Pantry Staples",
+        "coherence": "moderate",
+        "themes": [
+          "cuisine",
+          "sensory",
+          "function",
+          "chemistry"
+        ]
+      },
+      "pole_b": {
+        "label": "Rare & Niche Specialty Ingredients",
+        "coherence": "incoherent",
+        "themes": [
+          "category"
+        ]
+      },
+      "axis": {
+        "label": "Umami-savory core vs. niche specialty periphery",
+        "description": "Pole A gathers intensely savory, umami-rich ingredients spanning European charcuterie/cheese, Chinese condiments, and Japanese dashi elements\u2014all united by high protein, glutamate-forward flavor, and frequent use as flavor-building foundations. Pole B is a heterogeneous scatter of rare, regionally niche, or novelty ingredients (exotic game meats, obscure peppers, specialty condiments) that lack a single culinary or sensory thread.",
+        "type": "mixed",
+        "is_bipolar_dimension": false,
+        "notes": "Pole A is reasonably coherent around umami-rich, savory cooking staples spanning multiple cuisines (Italian cured meats/cheeses, Chinese sauces, Japanese dashi, French stocks). Pole B is structurally incoherent\u2014it collects exotic game (bear, kangaroo, bison, squirrel), obscure regional condiments (mopping sauce, piquante sauce, salad cream), niche grains (navy bean, teff), and unusual produce (malanga, nanohana). The factor likely captures a 'well-connected savory core' vs. 'co-occurrence periphery' structure rather than a true bipolar semantic dimension. The cross-cosine sugar signal on Pole B may reflect condiments like cane syrup, pepper jelly, and sorghum syrup rather than a coherent sensory identity."
+      },
+      "secondary_lens": {
+        "type": "chemistry",
+        "label": "High-protein umami vs. sugary caloric density",
+        "description": "Cross-cosine evidence shows Pole A aligning with protein-fat ratio (+0.30), water content (+0.29), and nutty compound features (+0.28), while Pole B aligns with sugars (-0.32), sugar-carb ratio (-0.30), and caloric density (-0.28), suggesting a biochemical gradient from lean, umami-dense ingredients to sweeter, more calorically dense ones.",
+        "confidence": "moderate"
+      },
+      "secondary_hints_a": [
+        {
+          "direction": "CUI:East_Asian",
+          "cos": 0.4072
+        },
+        {
+          "direction": "USDA:protein_fat_ratio",
+          "cos": 0.3043
+        },
+        {
+          "direction": "USDA:water_g",
+          "cos": 0.2937
+        },
+        {
+          "direction": "CF:nutty",
+          "cos": 0.2779
+        },
+        {
+          "direction": "CUI:Japanese",
+          "cos": 0.22
+        }
+      ],
+      "secondary_hints_b": [
+        {
+          "direction": "USDA:sugars_g",
+          "cos": -0.3166
+        },
+        {
+          "direction": "CUI:Western_Atlantic",
+          "cos": -0.3097
+        },
+        {
+          "direction": "USDA:sugar_carb_ratio",
+          "cos": -0.2969
+        },
+        {
+          "direction": "USDA:energy_kcal",
+          "cos": -0.2921
+        },
+        {
+          "direction": "USDA:caloric_density",
+          "cos": -0.277
+        }
+      ],
+      "pole_a_top": [
+        "maggi_seasoning",
+        "mixed_herbs",
+        "mala_sauce",
+        "chervil",
+        "pea_shoot",
+        "pancetta",
+        "seasoning_sauce",
+        "herb",
+        "pesto",
+        "pasta_sauce"
+      ],
+      "pole_b_top": [
+        "squirrel",
+        "aonori",
+        "kangaroo",
+        "simit",
+        "peppercorn_sauce",
+        "gammon",
+        "malanga",
+        "ayran",
+        "vadouvan",
+        "mirepoix"
+      ],
+      "method": "ica"
+    }
+  }
+}

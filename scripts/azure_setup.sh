@@ -104,13 +104,12 @@ Done. Set these as GitHub Actions secrets / variables on $GH_REPO:
     AZURE_CLIENT_ID            = $APP_ID
     AZURE_TENANT_ID            = $TENANT_ID
     AZURE_SUBSCRIPTION_ID      = $SUB_ID
-    EPICURE_DATA_PAT           = <PAT with read access to the epicure-data repo>
 
   Repository variables:
     ACR_NAME                   = $ACR_NAME
-    EPICURE_DATA_REPO          = <owner>/epicure-data
 
-Public MCP endpoint (will return 404 until the GitHub Actions deploy.yml runs):
+Public MCP endpoint (will serve the placeholder image until the GitHub
+Actions deploy.yml runs and replaces it with the real container):
   https://$FQDN/mcp
   https://$FQDN/healthz
 EOF

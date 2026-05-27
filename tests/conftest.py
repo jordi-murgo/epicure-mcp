@@ -91,9 +91,6 @@ def mini_data_dir(tmp_path: Path, monkeypatch) -> Path:
     )
     cn.to_csv(d / "consolidated_nodes.csv", index=False)
 
-    cs = pd.DataFrame({"node_id1": [1], "node_id2": [2], "similarity": [0.5]})
-    cs.to_csv(d / "cosine_similarity.csv", index=False)
-
     direction = rng.normal(size=dim).astype(np.float32)
     direction = direction / np.linalg.norm(direction)
     np.savez(

@@ -19,7 +19,6 @@ REQUIRED_CSV = [
     "embeddings.csv",
     "ingredient_list.csv",
     "ingredient_tags.csv",
-    "cosine_similarity.csv",
     "consolidated_nodes.csv",
 ]
 

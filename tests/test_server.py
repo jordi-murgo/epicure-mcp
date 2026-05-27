@@ -1,0 +1,123 @@
+"""End-to-end server test: spin up the ASGI app and invoke an MCP tool via
+the Streamable HTTP transport."""
+
+from __future__ import annotations
+
+import json
+
+import httpx
+import pytest
+from asgi_lifespan import LifespanManager
+
+from epicure_mcp.server import build_app
+
+pytestmark = pytest.mark.usefixtures("use_real_bundle")
+
+JSONRPC_HEADERS = {
+    "Content-Type": "application/json",
+    "Accept": "application/json, text/event-stream",
+}
+
+
+def _decode(text: str) -> dict:
+    """Decode an SSE or plain-JSON MCP response."""
+    if text.startswith("event:") or "\ndata:" in text or text.startswith("data:"):
+        for line in text.splitlines():
+            if line.startswith("data:"):
+                return json.loads(line[5:].strip())
+    return json.loads(text)
+
+
+@pytest.mark.anyio
+async def test_healthz_and_initialize() -> None:
+    app = build_app()
+    async with LifespanManager(app) as manager:
+        transport = httpx.ASGITransport(app=manager.app)
+        await _run_session(transport)
+
+
+async def _run_session(transport: httpx.ASGITransport) -> None:
+    async with httpx.AsyncClient(
+        transport=transport, base_url="http://localhost", follow_redirects=True
+    ) as client:
+        health = await client.get("/healthz")
+        assert health.status_code == 200
+        assert health.json() == {"status": "ok"}
+
+        init_payload = {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "initialize",
+            "params": {
+                "protocolVersion": "2025-06-18",
+                "capabilities": {},
+                "clientInfo": {"name": "pytest", "version": "0.1"},
+            },
+        }
+        resp = await client.post("/mcp", json=init_payload, headers=JSONRPC_HEADERS)
+        assert resp.status_code == 200
+        body = _decode(resp.text)
+        assert body["jsonrpc"] == "2.0"
+        assert "result" in body
+        session_id = resp.headers.get("mcp-session-id")
+        assert session_id
+
+        await client.post(
+            "/mcp",
+            json={"jsonrpc": "2.0", "method": "notifications/initialized"},
+            headers={**JSONRPC_HEADERS, "mcp-session-id": session_id},
+        )
+
+        list_resp = await client.post(
+            "/mcp",
+            json={"jsonrpc": "2.0", "id": 2, "method": "tools/list"},
+            headers={**JSONRPC_HEADERS, "mcp-session-id": session_id},
+        )
+        assert list_resp.status_code == 200
+        list_body = _decode(list_resp.text)
+        tool_names = {t["name"] for t in list_body["result"]["tools"]}
+        for required in (
+            "compare_on_axis",
+            "pairing_score",
+            "find_pairings",
+            "flavour_correlations",
+            "cultural_profile",
+            "neighbors",
+            "morph",
+            "list_targets",
+            "list_factors",
+            "ingredient_on_factor",
+            "pareto_navigate",
+            "closest_mode",
+            "where_on_atlas",
+        ):
+            assert required in tool_names, f"missing tool: {required}"
+
+        call_resp = await client.post(
+            "/mcp",
+            json={
+                "jsonrpc": "2.0",
+                "id": 3,
+                "method": "tools/call",
+                "params": {
+                    "name": "pairing_score",
+                    "arguments": {"ingredient_a": "miso", "ingredient_b": "soy_sauce"},
+                },
+            },
+            headers={**JSONRPC_HEADERS, "mcp-session-id": session_id},
+        )
+        assert call_resp.status_code == 200
+        call_body = _decode(call_resp.text)
+        result = call_body["result"]
+        text_block = next(
+            (b["text"] for b in result.get("content", []) if b.get("type") == "text"), None
+        )
+        assert text_block is not None
+        payload = json.loads(text_block)
+        assert payload["resolved_a"] == "miso"
+        assert -1.0 <= payload["pairing_score"] <= 1.0
+
+
+@pytest.fixture
+def anyio_backend() -> str:
+    return "asyncio"

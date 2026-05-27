@@ -24,6 +24,7 @@ from . import (
     pareto_navigate,
     where_on_atlas,
 )
+from .morph_types import MorphTarget
 
 
 def _wrap_result(value: Any) -> Any:
@@ -89,7 +90,7 @@ def register_all(server: FastMCP) -> None:
     )
     def _morph(
         seed: str,
-        target: dict,
+        target: MorphTarget,
         angle_deg: float = 30.0,
         top_k: int = 5,
     ) -> Any:

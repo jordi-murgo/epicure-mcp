@@ -9,10 +9,13 @@ import numpy as np
 from ..data_loader import get_bundle
 
 DESCRIPTION = (
-    "Show which flavour/sensory/nutrient axes are correlated with each "
-    "other in the embedding space. Cosine similarity between axis "
-    "vectors: positive = correlated, negative = anti-correlated. Only "
-    "axis pairs with |r| > 0.3 are returned."
+    "Use when the user asks about the global structure of the flavour "
+    "space ('what correlates with sweetness?', 'is umami the same as "
+    "salty?', 'explain the trade-offs in this embedding'). Returns "
+    "cosine between every pair of axis vectors; positive = correlated, "
+    "negative = anti-correlated. Only axis pairs with |r| > 0.3 are "
+    "returned. Useful for explaining substitution trade-offs (e.g. "
+    "moving sweeter usually moves more-processed too)."
 )
 
 

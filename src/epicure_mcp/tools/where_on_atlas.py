@@ -9,9 +9,13 @@ import numpy as np
 from ..data_loader import get_bundle
 
 DESCRIPTION = (
-    "Look up an ingredient's precomputed 2-D UMAP position (the paper's "
-    "atlas view) and return its closest neighbours in 2-D space along "
-    "with cuisine and food-group labels for the surrounding region."
+    "Use when the user wants visual / spatial context for an ingredient "
+    "('where does miso sit on the atlas?', 'what surrounds saffron "
+    "visually?'). Returns the precomputed 2-D UMAP coordinate (x, y) "
+    "plus the closest neighbours in 2-D space with their cuisine and "
+    "food-group labels -- useful for describing the local neighbourhood. "
+    "For 'what named flavour cluster is X in?' use closest_mode instead "
+    "(named regions, not coordinates)."
 )
 
 

@@ -12,10 +12,13 @@ from typing import Any
 from ..data_loader import get_bundle
 
 DESCRIPTION = (
-    "Catalogue every valid target for the `morph` tool: supervised "
-    "directions (cuisine, sensory, nutrient, NOVA, diet) and emergent "
-    "GMM mode poles. Each entry includes a one-line description. The "
-    "response also explains how the `angle_deg` parameter works."
+    "Use before any call to morph or compare_on_axis with a free-text "
+    "axis or target you have not already verified. Enumerates every "
+    "valid target: supervised directions (cuisines, cf_* sensory "
+    "descriptors, usda_* nutrients, NOVA, diet) and emergent GMM mode "
+    "poles. Each entry includes a one-line description. The response "
+    "also explains how the `angle_deg` parameter works on morph. Filter "
+    "with kind='direction' or kind='mode' if you only need one family."
 )
 
 ANGLE_DEG_PRIMER = (

@@ -16,10 +16,13 @@ from ..data_loader import get_bundle
 from ..geometry import pareto_frontier
 
 DESCRIPTION = (
-    "Pareto frontier on (proximity-to-seed, projection-onto-pole) for "
-    "one or more labelled ICA poles. With pole=None, the tool picks the "
-    "top-K poles most relevant to the seed. Output is the paper's mode-"
-    "atlas hero view: each pole's frontier plus context labels."
+    "Use for 'closest X that's also Y' trade-off questions: 'the closest "
+    "thing to miso that is also fermented', 'rice-like ingredients that "
+    "are more Indian'. Computes the Pareto frontier balancing "
+    "proximity-to-seed against projection-onto-a-labelled-pole. When "
+    "pole=None, the tool auto-picks the top-K poles most relevant to "
+    "the seed. Each frontier entry is a non-dominated ingredient that "
+    "sits both close to the seed and far along the chosen pole."
 )
 
 _COHERENCE_WEIGHT = {"high": 3.0, "moderate": 2.0, "low": 1.0, "incoherent": 0.0}

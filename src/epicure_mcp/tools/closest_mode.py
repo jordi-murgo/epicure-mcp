@@ -7,10 +7,15 @@ from typing import Any
 from ..data_loader import get_bundle
 
 DESCRIPTION = (
-    "Find which emergent GMM mode(s) best describe an ingredient. "
-    "Returns the top-k modes (across all properties or filtered to a "
-    "single property) with cosine similarity to each mode pole plus the "
-    "Claude-labelled name and top members of the mode."
+    "Use when the user asks what named flavour region an ingredient "
+    "belongs to ('what family is miso in?', 'what cluster does kimchi "
+    "fit?'). Returns the top-k emergent GMM modes that best describe "
+    "the ingredient, each with a Claude-labelled name (e.g. 'East Asian "
+    "umami pantry staples'), cosine similarity to the mode's centroid, "
+    "and the mode's top members. Pass property=... to restrict to one "
+    "axis family (cuisine, sensory, etc.). For 2-D visual placement use "
+    "where_on_atlas instead; for cuisine-only questions use "
+    "cultural_profile."
 )
 
 

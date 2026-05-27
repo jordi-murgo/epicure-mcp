@@ -9,11 +9,13 @@ import numpy as np
 from ..data_loader import get_bundle
 
 DESCRIPTION = (
-    "Project an ingredient onto a residualised ICA factor. Returns the "
-    "signed projection (positive = toward pole A, negative = toward "
-    "pole B), the matching pole context (Claude label + top "
-    "ingredients), and the projection percentile across all "
-    "ingredients."
+    "Use when the user asks where one ingredient sits on one specific "
+    "emergent factor ('how umami is miso on factor 19?', 'where does "
+    "saffron land on the Indian factor?'). Returns the signed projection "
+    "(positive = toward pole A, negative = toward pole B), the matching "
+    "pole context (Claude label + top ingredients), and the projection "
+    "percentile across all 1,790 ingredients. Call list_factors first "
+    "to see which factor index corresponds to which axis."
 )
 
 

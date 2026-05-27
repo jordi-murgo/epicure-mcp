@@ -8,10 +8,12 @@ from ..data_loader import get_bundle
 from ..geometry import percentile_label
 
 DESCRIPTION = (
-    "Compare two ingredients on a named embedding axis (e.g. 'cf_sweet', "
-    "'nova', 'diet', 'cuisine:Japanese'). Returns both projections, the "
-    "delta (b minus a), and the axis p10/p90 range for scale context. "
-    "Call list_targets to see all valid axis names."
+    "Use when the user asks to compare two ingredients on one specific "
+    "axis (e.g. 'is miso sweeter than soy sauce?', 'which is more "
+    "Japanese: ponzu or sake?'). Projects both ingredients onto the "
+    "named axis and returns both values, the delta (b minus a), and the "
+    "axis p10/p90 range for scale context. Valid axis names come from "
+    "list_targets (kind='direction') -- verify before calling."
 )
 
 

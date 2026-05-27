@@ -93,6 +93,43 @@ async def _run_session(transport: httpx.ASGITransport) -> None:
         ):
             assert required in tool_names, f"missing tool: {required}"
 
+        # The morph.target parameter must surface as a discriminated union
+        # so MCP clients can validate their payload before invoking.
+        morph_tool = next(
+            t for t in list_body["result"]["tools"] if t["name"] == "morph"
+        )
+        target_schema = morph_tool["inputSchema"]["properties"]["target"]
+        branches = target_schema.get("oneOf") or target_schema.get("anyOf")
+        assert branches is not None, (
+            f"morph.target should be a union; got: {target_schema}"
+        )
+        # Resolve $ref-style branches against the schema's $defs so we can
+        # inspect their `kind` discriminator.
+        defs = morph_tool["inputSchema"].get("$defs") or morph_tool[
+            "inputSchema"
+        ].get("definitions", {})
+
+        def _resolve(branch: dict) -> dict:
+            ref = branch.get("$ref")
+            if not ref:
+                return branch
+            return defs.get(ref.rsplit("/", 1)[-1], branch)
+
+        kinds: set[str] = set()
+        for branch in branches:
+            resolved = _resolve(branch)
+            kind_prop = resolved.get("properties", {}).get("kind", {})
+            const = kind_prop.get("const")
+            enum = kind_prop.get("enum")
+            if const:
+                kinds.add(const)
+            elif enum:
+                kinds.update(enum)
+        assert kinds == {"direction", "mode", "ingredient"}, (
+            f"morph.target must discriminate on kind in {{'direction', 'mode', "
+            f"'ingredient'}}; got {kinds}"
+        )
+
         call_resp = await client.post(
             "/mcp",
             json={

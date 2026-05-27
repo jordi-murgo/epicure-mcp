@@ -11,13 +11,18 @@ from ..data_loader import get_bundle
 from ..pairings import find_pairings as _find_pairings
 
 DESCRIPTION = (
-    "Find ingredients that pair best with one or more ingredients. "
-    "Returns three sections: CLUSTERS (primaries grouped by shared "
-    "secondaries), CONNECTIONS (each primary's secondary pairings), "
-    "and BRIDGES (secondaries that connect multiple primaries). "
-    "Category penalties (meat/sweet/fat stacking) promote diversity. "
-    "Set is_vegan or is_vegetarian to filter dietary-incompatible "
-    "ingredients out of the graph. Computed locally - no external API."
+    "PRIMARY EXPLORATION TOOL. Use for open-ended pairing questions: "
+    "'what goes with miso?', 'I have tomato and basil, what else?', "
+    "'suggest ingredients to add to this recipe'. Builds a two-tiered "
+    "pairing graph from one or more seed ingredients and returns three "
+    "sections: CLUSTERS (primaries grouped by shared secondaries -- "
+    "reveals distinct flavour directions), CONNECTIONS (each primary's "
+    "top secondary pairings), and BRIDGES (secondaries that connect "
+    "multiple primaries -- strong cross-cluster connectors). Category "
+    "penalties promote diversity (avoids stacking meat-on-meat, "
+    "sweet-on-sweet, fat-on-fat). Set is_vegan or is_vegetarian to "
+    "filter the graph. Always prefer this tool over morph or neighbors "
+    "when the user has not named a specific direction or target."
 )
 
 

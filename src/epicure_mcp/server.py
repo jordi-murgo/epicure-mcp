@@ -25,6 +25,81 @@ from .tools import register_all
 log = logging.getLogger("epicure_mcp.server")
 
 
+SERVER_INSTRUCTIONS = """\
+Read-only access to the Epicure ingredient-embedding model: 1,790 ingredients
+embedded as 300-dimensional vectors trained on a 4.14M-recipe multi-language
+corpus. The model captures both recipe co-occurrence (which ingredients appear
+together) and learned flavour structure (cuisine, sensory, nutrient, processing
+axes). Ingredient names are matched deterministically (free text like "fresh
+ginger" maps to a canonical name); no fuzzy LLM fallback.
+
+TOOLS BY USE CASE
+
+Open-ended exploration -- start here for "what about X?" questions:
+  find_pairings(ingredients, ...)
+      Best tool for undirected pairing exploration. Given one or more seeds,
+      returns a cluster + bridge graph of ingredients that pair well with the
+      whole set. Handles dietary filters; avoids meat/sweet/fat stacking.
+  neighbors(ingredient, top_k)
+      Top-k cosine-nearest ingredients to a single seed (no graph structure).
+  where_on_atlas(ingredient)
+      2-D UMAP coordinate of one ingredient plus its nearest-in-2D peers.
+      Use to describe its visual neighbourhood on the atlas.
+  closest_mode(ingredient, property?, top_k)
+      Which named GMM cluster (e.g. "East Asian umami pantry staples") the
+      ingredient belongs to. Use for "what flavour family is X part of?".
+
+Comparison & measurement -- quantitative answers between or about ingredients:
+  pairing_score(a, b)
+      Single 300-d cosine similarity between two ingredients (+ percentile).
+  compare_on_axis(a, b, axis)
+      Project both ingredients onto one named axis and compare.
+  ingredient_on_factor(ingredient, factor)
+      Signed projection of one ingredient onto one ICA factor.
+  cultural_profile(ingredient)
+      Cosine of one ingredient against all 8 cuisine directions at once.
+  flavour_correlations()
+      Inter-axis correlations across the full model; useful for explaining
+      trade-offs (e.g. "sweet correlates with nova at 0.77").
+
+Directional transformations -- only when the user names a direction or target:
+  morph(seed, target, angle_deg)
+      Rotate `seed` toward `target` on the unit sphere by `angle_deg`. Use
+      ONLY when the user explicitly names a direction or transformation
+      ("make miso more Mediterranean", "sweeter version of soy sauce",
+      "what's like rice but Indian?"). NEVER for open-ended pairing
+      questions -- use find_pairings instead.
+  pareto_navigate(seed, pole?)
+      Pareto frontier of ingredients balancing proximity-to-seed against
+      projection-onto-a-named-pole. Use for "the closest X that is also Y"
+      trade-offs.
+
+Catalogue / vocabulary -- call before tools that take string IDs:
+  list_targets(kind?)
+      Valid axes (cuisine, sensory, nutrient, NOVA, diet) and emergent modes.
+      Mandatory before any morph or compare_on_axis call with a free-text
+      axis name you have not already verified.
+  list_factors(min_coherence?)
+      The 20 residualised ICA factors with their Claude-labelled poles.
+
+GUARDRAILS
+
+1. For "what goes with X?" / "I have X and Y, what else?" -- start with
+   find_pairings. Do NOT reach for morph or neighbors first.
+2. For "is X sweet / spicy / processed?" -- use compare_on_axis (paired
+   comparison) or ingredient_on_factor (one ingredient, one factor).
+3. For "where in flavour space is X?" -- prefer where_on_atlas for visual
+   placement, closest_mode for named regions, cultural_profile only when
+   the question is specifically cuisine-related.
+4. Before passing a free-text axis name to morph or compare_on_axis,
+   verify it exists via list_targets. Same for factor indices via
+   list_factors.
+5. Use morph ONLY when the user explicitly names a direction or target
+   (cuisine, sensory descriptor, nutrient, or another ingredient). Never
+   use morph for open-ended pairing or similarity questions.
+"""
+
+
 def _build_mcp(cfg: Config) -> FastMCP:
     # Public server: the host name varies (Azure Container Apps assigns a
     # generated FQDN) and clients may proxy through Claude.ai / Cursor /
@@ -34,13 +109,7 @@ def _build_mcp(cfg: Config) -> FastMCP:
     security = TransportSecuritySettings(enable_dns_rebinding_protection=False)
     server = FastMCP(
         name=cfg.server_name,
-        instructions=(
-            "Read-only access to the Epicure ingredient-embedding model. "
-            "Resolve ingredient names with the deterministic matcher, then "
-            "call tools to compute axis projections, pairings, factor poles, "
-            "GMM mode placement, and atlas coordinates. Call list_targets() "
-            "first to see valid axis and mode names for the morph tool."
-        ),
+        instructions=SERVER_INSTRUCTIONS,
         transport_security=security,
         host=cfg.host,
         port=cfg.port,

@@ -8,10 +8,12 @@ from ..data_loader import get_bundle
 from ..geometry import percentile_label
 
 DESCRIPTION = (
-    "Overall pairing affinity between two ingredients in the 300-d "
-    "FlavorGraph embedding space (cosine similarity). Higher = better "
-    "pairing. Typical range: 0.0 to 0.6. Returns the raw score plus a "
-    "percentile label relative to all ingredient pairs in the corpus."
+    "Use when the user asks how well two specific ingredients pair "
+    "('does miso go with chocolate?', 'rate the pairing of basil and "
+    "watermelon'). Returns the raw 300-d cosine similarity plus a "
+    "percentile label relative to all ingredient pairs in the corpus. "
+    "Higher = better pairing; typical range 0.0 to 0.6. For open-ended "
+    "'what pairs with X?' questions, use find_pairings instead."
 )
 
 

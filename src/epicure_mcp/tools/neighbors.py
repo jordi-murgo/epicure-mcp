@@ -9,9 +9,12 @@ import numpy as np
 from ..data_loader import get_bundle
 
 DESCRIPTION = (
-    "Return the top-k cosine neighbours of an ingredient in the 300-d "
-    "embedding space. Useful for exploring what the model considers "
-    "similar to a given ingredient."
+    "Use when the user asks what is similar to one specific ingredient "
+    "('what's like miso?', 'similar to gochujang'). Returns the top-k "
+    "cosine-nearest ingredients to a single seed -- no graph structure, "
+    "no clustering. For multi-seed pairing exploration ('what goes with "
+    "miso AND ginger?') use find_pairings instead, which handles seed "
+    "centroids, dietary filters, and category penalties."
 )
 
 

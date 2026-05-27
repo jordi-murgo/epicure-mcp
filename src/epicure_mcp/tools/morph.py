@@ -23,20 +23,35 @@ from ..data_loader import get_bundle
 from ..geometry import slerp
 
 DESCRIPTION = (
-    "Rotate a seed ingredient toward a target on the unit sphere by "
-    "angle_deg, then return the closest ingredients to the morphed "
-    "query. Target is one of: a supervised direction "
-    "{kind:'direction', name:'cuisine:Japanese'}, a GMM mode "
-    "{kind:'mode', property:'cf_savory', mode_id:3}, or another "
-    "ingredient {kind:'ingredient', name:'miso'}. Use list_targets() "
-    "to enumerate valid targets. angle_deg semantics: 0 = no change, "
-    "30 = mild morph, 60 = strong morph, 90 = orthogonal (drops the "
-    "seed's identity entirely)."
+    "Use ONLY when the user explicitly names a direction or target for "
+    "transformation: 'make miso more Mediterranean', 'sweeter version "
+    "of soy sauce', 'what's like rice but Indian?'. Do NOT use for "
+    "open-ended pairing or similarity questions -- use find_pairings "
+    "or neighbors for those. Rotates `seed` toward `target` on the unit "
+    "sphere by `angle_deg` then returns the closest ingredients to the "
+    "rotated query. Target is a discriminated union -- exactly one of: "
+    "{kind:'direction', name:'cuisine:Japanese' | 'cf_sweet' | 'nova' "
+    "| 'diet'}, {kind:'mode', property:'cf_savory', mode_id:3}, or "
+    "{kind:'ingredient', name:'miso'}. Call list_targets first to see "
+    "valid direction names and mode (property, mode_id) pairs. "
+    "angle_deg: 0 = identity (seed unchanged), 30 = mild morph, 60 = "
+    "strong morph, 90 = orthogonal (seed's identity dropped entirely)."
 )
 
 
-def _resolve_target(target: dict[str, Any]) -> tuple[np.ndarray | None, dict[str, Any]]:
+def _to_dict(target: Any) -> dict[str, Any]:
+    """Accept either a Pydantic model (from FastMCP-validated input) or a
+    raw dict (from in-process test calls / older clients)."""
+    if hasattr(target, "model_dump"):
+        return target.model_dump()
+    if isinstance(target, dict):
+        return target
+    return {}
+
+
+def _resolve_target(target: Any) -> tuple[np.ndarray | None, dict[str, Any]]:
     bundle = get_bundle()
+    target = _to_dict(target)
     kind = target.get("kind")
     if kind == "direction":
         name = target.get("name")
@@ -96,7 +111,7 @@ def _resolve_target(target: dict[str, Any]) -> tuple[np.ndarray | None, dict[str
 def run(
     *,
     seed: str,
-    target: dict[str, Any],
+    target: Any,
     angle_deg: float = 30.0,
     top_k: int = 5,
 ) -> dict[str, Any]:

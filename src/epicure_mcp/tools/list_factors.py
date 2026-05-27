@@ -7,10 +7,13 @@ from typing import Any
 from ..data_loader import get_bundle
 
 DESCRIPTION = (
-    "Enumerate the residualised ICA factors with their Claude-labelled "
-    "poles. Each factor exposes an axis description plus pole_a / pole_b "
-    "labels, coherence, and top-10 ingredients per pole. Filter by "
-    "min_coherence ('high' | 'moderate' | 'low')."
+    "Use to browse the 20 emergent flavour factors before calling "
+    "ingredient_on_factor or pareto_navigate ('what factors exist in "
+    "this model?', 'show me the high-coherence flavour axes'). Each "
+    "factor exposes a named axis (e.g. 'Indonesian Culinary Identity') "
+    "plus pole_a / pole_b Claude labels, coherence rating, and the "
+    "top-10 anchoring ingredients per pole. Filter with min_coherence "
+    "('high' | 'moderate' | 'low')."
 )
 
 _COHERENCE_RANK = {"high": 3, "moderate": 2, "low": 1, "incoherent": 0}

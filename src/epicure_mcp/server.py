@@ -59,6 +59,23 @@ ginger" maps to a canonical name); no fuzzy LLM fallback.
 
 TOOLS BY USE CASE
 
+Recipe / dish design -- HEAVIEST USE CASE (read the GUARDRAILS too):
+  When the user asks you to design, create, suggest, propose, compose,
+  or invent a recipe / dish / meal, you MUST call find_pairings on the
+  primary ingredient(s) BEFORE composing your answer. The embedding
+  surfaces non-obvious pairings beyond your training data, and the
+  BRIDGES section in the find_pairings output is where the most
+  interesting cross-cluster connectors live. Compose the recipe USING
+  those surfaced ingredients; cite the bridges as the source of any
+  non-obvious choices. Layer in cultural_profile or closest_mode when
+  you want to ground the dish in a coherent flavour family, and morph
+  only if the user explicitly asks for a fusion or transformation.
+  Examples of triggering phrasings (always call find_pairings first):
+    "create an interesting beef dish"     -> find_pairings(["beef"])
+    "design a dessert using lemon"        -> find_pairings(["lemon"])
+    "suggest a one-pot meal with chicken" -> find_pairings(["chicken"])
+    "invent a sauce for pork"             -> find_pairings(["pork"])
+
 Open-ended exploration -- start here for "what about X?" questions:
   find_pairings(ingredients, ...)
       Best tool for undirected pairing exploration. Given one or more seeds,
@@ -121,6 +138,12 @@ GUARDRAILS
 5. Use morph ONLY when the user explicitly names a direction or target
    (cuisine, sensory descriptor, nutrient, or another ingredient). Never
    use morph for open-ended pairing or similarity questions.
+6. When asked to design / create / suggest / invent / compose a recipe
+   or dish, ALWAYS call find_pairings on the primary ingredient(s)
+   FIRST -- before writing any of the recipe. The model surfaces
+   non-obvious pairings the recipe should incorporate. Skip the call
+   ONLY for trivially simple requests (boiling an egg, single-step
+   techniques, requests without an ingredient combination to design).
 """
 
 

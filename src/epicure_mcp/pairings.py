@@ -106,55 +106,109 @@ class PairingGraph:
     sec_ids_per_primary: dict[int, set[int]]
 
 
-def _candidate_mask(
-    ing: IngredientData,
-    excluded_rows: set[int],
-    is_vegan: bool,
-    is_vegetarian: bool,
-) -> np.ndarray:
-    """Boolean mask over all ingredients excluding the seed rows and any
-    rows whose dietary flags disqualify them."""
-    n = ing.normed.shape[0]
-    mask = np.ones(n, dtype=bool)
-    if excluded_rows:
-        mask[list(excluded_rows)] = False
-    if is_vegan or is_vegetarian:
-        flags = ing.is_vegan if is_vegan else ing.is_vegetarian
-        for i, nid in enumerate(ing.node_ids):
-            if mask[i] and not flags.get(int(nid), False):
-                mask[i] = False
-    return mask
+@dataclass
+class _RequestFilters:
+    """Per-request filters precomputed once per ``find_pairings`` call.
+
+    Folds dietary, word-overlap, and category-penalty into a single
+    per-row score multiplier + a per-row forbidden-mask. The hot
+    ``_scored_candidates`` path then becomes:
+
+        scores = (ing.normed @ q) * score_mul
+        scores[forbidden | excluded] = -inf
+        argsort(-scores)
+
+    which is one matmul + one multiply + one argsort per call. The
+    Python-per-row work that used to run on every primary's centroid
+    runs once for the whole request.
+    """
+
+    n: int
+    score_mul: np.ndarray   # (N,) float32 -- (1 - category_penalty)
+    forbidden: np.ndarray   # (N,) bool   -- True == always disallow
 
 
-def _scored_candidates(
+def _build_request_filters(
     ing: IngredientData,
-    query_vec: np.ndarray,
-    excluded_rows: set[int],
     seed_names: list[str],
     is_vegan: bool,
     is_vegetarian: bool,
     has_meat: bool,
     has_sweet: bool,
     has_fat: bool,
-) -> list[tuple[int, float]]:
-    """Return ``(row_index, penalised_similarity)`` for every candidate
-    that passes the dietary + word-overlap filters."""
-    norm = float(np.linalg.norm(query_vec))
-    q = query_vec / norm if norm > 0 else query_vec
-    sims = ing.normed @ q
-    out: list[tuple[int, float]] = []
-    for i, raw in enumerate(sims):
-        if i in excluded_rows:
-            continue
+) -> _RequestFilters:
+    n = ing.normed.shape[0]
+    score_mul = np.ones(n, dtype=np.float32)
+    forbidden = np.zeros(n, dtype=bool)
+
+    # Pre-tokenise seed words once.
+    seed_words: set[str] = set()
+    for s in seed_names:
+        seed_words.update(s.lower().replace("_", " ").split())
+
+    dietary_active = is_vegan or is_vegetarian
+    flags_map = ing.is_vegan if is_vegan else ing.is_vegetarian
+    penalties_active = has_meat or has_sweet or has_fat
+
+    for i in range(n):
         node_id = int(ing.node_ids[i])
-        if not _meets_dietary(ing, node_id, is_vegan, is_vegetarian):
+        if dietary_active and not flags_map.get(node_id, False):
+            forbidden[i] = True
             continue
-        name = str(ing.names[i])
-        if _has_word_overlap(name, seed_names):
-            continue
-        cats = _categories_for(ing, node_id)
-        penalty = _category_penalty(cats, has_meat, has_sweet, has_fat)
-        out.append((i, float(raw) * (1.0 - penalty)))
+        if seed_words:
+            cand_words = set(str(ing.names[i]).lower().replace("_", " ").split())
+            if cand_words & seed_words:
+                forbidden[i] = True
+                continue
+        if penalties_active:
+            cats = _categories_for(ing, node_id)
+            penalty = _category_penalty(cats, has_meat, has_sweet, has_fat)
+            if penalty > 0:
+                score_mul[i] = 1.0 - penalty
+
+    return _RequestFilters(n=n, score_mul=score_mul, forbidden=forbidden)
+
+
+def _scored_candidates(
+    ing: IngredientData,
+    query_vec: np.ndarray,
+    excluded_rows: set[int],
+    filters: _RequestFilters,
+    top_k: int = 0,
+) -> list[tuple[int, float]]:
+    """Vectorised candidate scoring.
+
+    Returns ``(row, penalised_similarity)`` for at most ``top_k`` eligible
+    rows in descending-score order. ``top_k=0`` returns every eligible row.
+    Eligible = not in ``excluded_rows`` and not in the precomputed
+    ``forbidden`` mask. Score = ``cosine(query, row) * (1 - penalty)``.
+    """
+    norm = float(np.linalg.norm(query_vec))
+    q = (query_vec / norm if norm > 0 else query_vec).astype(np.float32)
+    sims = ing.normed @ q
+    scores = sims * filters.score_mul
+    scores = np.where(filters.forbidden, -np.inf, scores)
+    if excluded_rows:
+        excluded_idx = np.fromiter(
+            excluded_rows, dtype=np.int64, count=len(excluded_rows)
+        )
+        scores[excluded_idx] = -np.inf
+
+    if top_k > 0:
+        k = min(top_k, filters.n)
+        # argpartition is O(N) for the partial top-k; argsort within the
+        # k-element slice is then negligible.
+        part = np.argpartition(-scores, k - 1)[:k]
+        ordered = part[np.argsort(-scores[part])]
+    else:
+        ordered = np.argsort(-scores)
+
+    out: list[tuple[int, float]] = []
+    for idx in ordered:
+        s = float(scores[idx])
+        if s == float("-inf"):
+            break
+        out.append((int(idx), s))
     return out
 
 
@@ -182,22 +236,21 @@ def build_graph(
     has_sweet = bool(seed_categories & _SWEET_CATEGORIES)
     has_fat = bool(seed_categories & _FAT_CATEGORIES)
 
+    # One vocabulary-wide pass; reused for every centroid below.
+    filters = _build_request_filters(
+        ing, seed_names, is_vegan, is_vegetarian, has_meat, has_sweet, has_fat,
+    )
+
     seed_vecs = ing.normed[seed_rows]
     combined_seed = seed_vecs.mean(axis=0)
 
     seed_set = set(seed_rows)
+    # Primary node selection: we only ever keep up to ``max_primary_nodes``,
+    # so cap the candidate list there + a generous safety margin in case
+    # some top scorers tie at -inf.
     primary_scored = _scored_candidates(
-        ing,
-        combined_seed,
-        seed_set,
-        seed_names,
-        is_vegan,
-        is_vegetarian,
-        has_meat,
-        has_sweet,
-        has_fat,
+        ing, combined_seed, seed_set, filters, top_k=max_primary_nodes * 3,
     )
-    primary_scored.sort(key=lambda x: -x[1])
 
     primaries: list[_Primary] = []
     for row, sim in primary_scored:
@@ -235,25 +288,17 @@ def build_graph(
         sec_ids_per_primary[primary.node_id].add(target_nid)
         chosen_secondary_rows.add(target_row)
 
-    def _scored_for_primary(primary: _Primary, exclude_rows: set[int]) -> list[tuple[int, float]]:
-        centroid = np.vstack([seed_vecs, ing.normed[primary.row : primary.row + 1]]).mean(axis=0)
-        cand = _scored_candidates(
-            ing,
-            centroid,
-            exclude_rows,
-            seed_names,
-            is_vegan,
-            is_vegetarian,
-            has_meat,
-            has_sweet,
-            has_fat,
-        )
-        cand.sort(key=lambda x: -x[1])
-        return cand
+    def _scored_for_primary(
+        primary: _Primary, exclude_rows: set[int], top_k: int = 16,
+    ) -> list[tuple[int, float]]:
+        centroid = np.vstack(
+            [seed_vecs, ing.normed[primary.row : primary.row + 1]]
+        ).mean(axis=0)
+        return _scored_candidates(ing, centroid, exclude_rows, filters, top_k=top_k)
 
     # Batch 1: top-4 per primary (shared targets allowed).
     for p in primaries:
-        for row, sim in _scored_for_primary(p, excluded_for_secondaries)[:4]:
+        for row, sim in _scored_for_primary(p, excluded_for_secondaries, top_k=4):
             _record(p, row, sim)
 
     # Batch 2: top up each primary to 4 unique connections.
@@ -280,6 +325,7 @@ def build_graph(
                 for link in secondary_links
                 if link.source_node_id == p.node_id
             },
+            top_k=unique_needed,
         )
         added = 0
         for row, sim in candidates:
@@ -298,7 +344,9 @@ def build_graph(
             ),
         )
         candidates = _scored_for_primary(
-            primary_to_extend, excluded_for_secondaries | chosen_secondary_rows
+            primary_to_extend,
+            excluded_for_secondaries | chosen_secondary_rows,
+            top_k=1,
         )
         if not candidates:
             break
@@ -351,7 +399,12 @@ def format_graph_text(graph: PairingGraph, pairing_stats: dict[str, float]) -> s
     lines.append("CLUSTERS (primaries grouped by shared secondary connections):")
     for i, cluster in enumerate(clusters):
         cats = [p.primary_category for p in cluster]
-        dominant = max(set(cats), key=cats.count) if cats else "Unknown"
+        # Stable tie-break: highest count wins, lexicographic name breaks ties.
+        # (Plain ``max(set(cats), key=cats.count)`` is non-deterministic because
+        # set iteration order depends on Python hash randomisation.)
+        dominant = (
+            max(sorted(set(cats)), key=cats.count) if cats else "Unknown"
+        )
         density = "dense" if len(cluster) > 1 else "isolated"
         members = ", ".join(
             f"{_format_name(p.name)} ({p.similarity_to_center:.3f})" for p in cluster

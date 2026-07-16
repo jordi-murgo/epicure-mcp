@@ -24,6 +24,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - id: metadata
+        name: Generate human-readable image tag
+        run: echo "tag=ts-$(date -u +'%Y%m%dT%H%M%SZ')-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
       - uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
@@ -35,14 +38,14 @@ jobs:
           context: .
           push: true
           provenance: false
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}:sha-${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}:${{ steps.metadata.outputs.tag }}
       - uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.GITOPS_DEPLOY_KEY }}
       - name: Commit immutable digest to GitOps
         env:
           DIGEST: ${{ steps.image.outputs.digest }}
-          IMAGE_TAG: sha-${{ github.sha }}
+          IMAGE_TAG: ${{ steps.metadata.outputs.tag }}
         run: |
           set -euo pipefail
           for attempt in 1 2 3 4 5; do

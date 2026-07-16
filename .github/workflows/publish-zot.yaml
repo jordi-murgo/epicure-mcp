@@ -49,7 +49,7 @@ jobs:
             rm -rf gitops
             git clone "$GITOPS_REPOSITORY" gitops
             cd gitops
-            docker run --rm -v "$PWD":/workdir -w /workdir mikefarah/yq:4.45.1 -i '.epicureMcp.image.tag = strenv(IMAGE_TAG) | .epicureMcp.image.digest = strenv(DIGEST)' apps/lotall/values/values.base.yaml
+            docker run --rm --user 0:0 -v "$PWD":/workdir -w /workdir mikefarah/yq:4.45.1 -i '.epicureMcp.image.tag = strenv(IMAGE_TAG) | .epicureMcp.image.digest = strenv(DIGEST)' apps/lotall/values/values.base.yaml
             git diff --quiet && exit 0
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

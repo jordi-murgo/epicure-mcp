@@ -1,0 +1,63 @@
+name: Publish image to Zot and deploy
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: [.github/workflows/publish-zot.yaml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-zot-epicure-mcp
+  cancel-in-progress: true
+
+env:
+  REGISTRY: registry.savagesoftware.dev
+  IMAGE_REPOSITORY: lotall/epicure-mcp
+  GITOPS_REPOSITORY: git@github.com:jordi-murgo/savage-ovh-cluster.git
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.ZOT_USERNAME }}
+          password: ${{ secrets.ZOT_PASSWORD }}
+      - uses: docker/build-push-action@v6
+        id: image
+        with:
+          context: .
+          push: true
+          provenance: false
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}:sha-${{ github.sha }}
+      - uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.GITOPS_DEPLOY_KEY }}
+      - name: Commit immutable digest to GitOps
+        env:
+          DIGEST: ${{ steps.image.outputs.digest }}
+          IMAGE_TAG: sha-${{ github.sha }}
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3 4 5; do
+            rm -rf gitops
+            git clone "$GITOPS_REPOSITORY" gitops
+            cd gitops
+            docker run --rm -v "$PWD":/workdir -w /workdir mikefarah/yq:4.45.1 -i '.epicureMcp.image.tag = strenv(IMAGE_TAG) | .epicureMcp.image.digest = strenv(DIGEST)' apps/lotall/values/values.base.yaml
+            git diff --quiet && exit 0
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add apps/lotall/values/values.base.yaml
+            git commit -m "deploy(lotall): epicure-mcp ${IMAGE_TAG}"
+            git push origin HEAD:main && exit 0
+            cd ..
+            sleep $((attempt * 2))
+          done
+          echo "Could not update GitOps after retries" >&2
+          exit 1
